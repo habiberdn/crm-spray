@@ -166,12 +166,13 @@
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700">Pilih Produk</label>
                                                 <select name="product_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                                                    <option value="">-- Pilih Produk --</option>
+                                                    
+                                                    {{-- <option value="">-- Pilih Produk --</option>
                                                     <option value="1">Bantal Empuk Premium - Rp 150.000</option>
                                                     <option value="2">Seprai Katun Organik - Rp 300.000</option>
                                                     <option value="3">Guling Microfiber - Rp 85.000</option>
                                                     <option value="4">Selimut Tebal Winter - Rp 250.000</option>
-                                                    <option value="5">Set Sprei King Size - Rp 450.000</option>
+                                                    <option value="5">Set Sprei King Size - Rp 450.000</option> --}}
                                                 </select>
                                                 <p class="mt-1 text-sm text-gray-500">Pilih produk yang akan diberikan diskon</p>
                                             </div>

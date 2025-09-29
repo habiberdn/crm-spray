@@ -14,11 +14,10 @@ class DiskonController extends Controller
      */
     public function index()
     {
-           $productsWithDiscount = Product::with('discount')
-            ->where('creator_id', Auth::id())
-            ->whereHas('discount')
-            ->get();
-         return view('admin.diskon.index');
+       $products = Product::where('creator_id', Auth::id())->get();
+        return view('admin.diskon.index', [
+            'products' => $products
+        ]);
     }
 
     /**
