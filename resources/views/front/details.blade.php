@@ -33,22 +33,10 @@
                     <p class="font-semibold text-lg md:text-xl">Overview</p>
                     <p class="text-belibang-grey leading-relaxed">{{$product->about}}</p>
                     <div class="flex flex-wrap items-center gap-2 sm:gap-3 mt-1">
-                        <!-- icons -->
-                        @foreach (['Python','figma-logo','blender','Excel','Laravel','Kotlin','flutter'] as $logo)
-                        <a href=""
-                            class="w-9 h-9 justify-center items-center rounded-full flex shrink-0 overflow-hidden border border-[#414141]">
-                            <img src="{{asset('/images/logos/'.$logo.'.svg')}}" class='p-[5px]' alt="logo">
-                        </a>
-                        @endforeach
+                       
                     </div>
                 </div>
-                <!-- Tags -->
-                <div class="flex flex-row flex-wrap gap-2 sm:gap-4 items-center">
-                    @foreach (['bank','finance','mobile','money','personal'] as $tag)
-                    <a href=""
-                        class="tags px-2 py-1 border border-[#414141] rounded-[4px] text-xs text-belibang-light-grey hover:bg-[#2A2A2A] transition-all duration-300">{{$tag}}</a>
-                    @endforeach
-                </div>
+               
             </div>
 
             <!-- Sidebar -->
@@ -60,7 +48,7 @@
                                 class="font-semibold text-2xl sm:text-3xl lg:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-[#B05CB0] to-[#FCB16B]">
                                 Rp {{number_format($product->price)}}</p>
                             <div class="flex flex-col gap-3 text-sm">
-                                @foreach (['100% Original Content','Lifetime Support','High-Performance Code','Customizable Themes','Responsive Design','Comprehensive Documentation'] as $benefit)
+                                @foreach (['100% Original Content','High Quality Product'] as $benefit)
                                 <div class="flex items-center gap-2">
                                     <img src="{{asset('/images/icons/check.svg')}}" class="w-4 h-4" alt="icon">
                                     <p class="text-belibang-grey">{{$benefit}}</p>
@@ -90,8 +78,7 @@
                             <img src="{{asset('/images/icons/arrow-right.svg')}}" alt="icon">
                         </a>
                     </div>
-                    <p class="text-sm leading-6 text-belibang-grey">A young UI/UX Designer from Indonesia.
-                        Specialized in mobile apps designs & loves creating UI Kit 🇮🇩</p>
+                    
                 </div>
             </div>
         </div>

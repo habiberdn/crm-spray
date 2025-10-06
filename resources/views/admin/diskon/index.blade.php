@@ -9,27 +9,27 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Error Messages -->
             @if($errors->any())
-                <div class="mb-6 rounded-lg bg-red-50 border border-red-200">
-                    <div class="p-4">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="text-sm font-medium text-red-800">Terdapat beberapa kesalahan:</h3>
-                                <div class="mt-2 text-sm text-red-700">
-                                    <ul class="list-disc list-inside space-y-1">
-                                        @foreach($errors->all() as $error)
-                                            <li>{{$error}}</li>
-                                        @endforeach    
-                                    </ul>
-                                </div>
+            <div class="mb-6 rounded-lg bg-red-50 border border-red-200">
+                <div class="p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">Terdapat beberapa kesalahan:</h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <ul class="list-disc list-inside space-y-1">
+                                    @foreach($errors->all() as $error)
+                                    <li>{{$error}}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             @endif
 
             <!-- Main Content -->
@@ -140,7 +140,7 @@
                                 </td>
                             </tr>
 
-                          
+
                         </tbody>
                     </table>
                 </div>
@@ -151,28 +151,26 @@
             <div id="discountModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
                 <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                    
+
                     <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-                    
+
                     <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
                         <form id="discountForm">
                             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
                                     <div class="w-full">
                                         <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Tambah Diskon Produk</h3>
-                                        
+
                                         <div class="space-y-4">
                                             <!-- Product Selection -->
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700">Pilih Produk</label>
                                                 <select name="product_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                                                    
-                                                    {{-- <option value="">-- Pilih Produk --</option>
-                                                    <option value="1">Bantal Empuk Premium - Rp 150.000</option>
-                                                    <option value="2">Seprai Katun Organik - Rp 300.000</option>
-                                                    <option value="3">Guling Microfiber - Rp 85.000</option>
-                                                    <option value="4">Selimut Tebal Winter - Rp 250.000</option>
-                                                    <option value="5">Set Sprei King Size - Rp 450.000</option> --}}
+                                                    @forelse($products as $product)
+                                                    <option value="">-- Pilih Produk --</option>
+                                                    <option value="1">{{ $product->name }}</option>
+                                                    @empty
+                                                    @endforelse
                                                 </select>
                                                 <p class="mt-1 text-sm text-gray-500">Pilih produk yang akan diberikan diskon</p>
                                             </div>
@@ -188,7 +186,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="grid grid-cols-2 gap-4">
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700">Tipe Diskon</label>
@@ -227,7 +225,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="grid grid-cols-2 gap-4">
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
@@ -243,7 +241,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                 <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -268,11 +266,36 @@
     <script>
         // Product data for preview
         const products = {
-            1: { name: 'Bantal Empuk Premium', price: 150000, sku: 'BNT001', image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=BNT' },
-            2: { name: 'Seprai Katun Organik', price: 300000, sku: 'SPR002', image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=SPR' },
-            3: { name: 'Guling Microfiber', price: 85000, sku: 'GUL003', image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=GUL' },
-            4: { name: 'Selimut Tebal Winter', price: 250000, sku: 'SLM004', image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=SLM' },
-            5: { name: 'Set Sprei King Size', price: 450000, sku: 'SET005', image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=SET' }
+            1: {
+                name: 'Bantal Empuk Premium',
+                price: 150000,
+                sku: 'BNT001',
+                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=BNT'
+            },
+            2: {
+                name: 'Seprai Katun Organik',
+                price: 300000,
+                sku: 'SPR002',
+                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=SPR'
+            },
+            3: {
+                name: 'Guling Microfiber',
+                price: 85000,
+                sku: 'GUL003',
+                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=GUL'
+            },
+            4: {
+                name: 'Selimut Tebal Winter',
+                price: 250000,
+                sku: 'SLM004',
+                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=SLM'
+            },
+            5: {
+                name: 'Set Sprei King Size',
+                price: 450000,
+                sku: 'SET005',
+                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=SET'
+            }
         };
 
         // Modal functionality
@@ -304,15 +327,15 @@
         document.querySelector('select[name="product_id"]').addEventListener('change', function() {
             const productId = this.value;
             const preview = document.getElementById('productPreview');
-            
+
             if (productId && products[productId]) {
                 const product = products[productId];
-                
+
                 document.getElementById('previewImage').src = product.image;
                 document.getElementById('previewName').textContent = product.name;
                 document.getElementById('previewPrice').textContent = `Rp ${product.price.toLocaleString('id-ID')}`;
                 document.getElementById('previewSKU').textContent = `SKU: ${product.sku}`;
-                
+
                 preview.classList.remove('hidden');
                 updateDiscountPreview();
             } else {
@@ -325,17 +348,17 @@
             const productId = document.querySelector('select[name="product_id"]').value;
             const discountType = document.querySelector('select[name="discount_type"]').value;
             const discountValue = parseFloat(document.querySelector('input[name="discount_value"]').value) || 0;
-            
+
             if (!productId || !discountType || !discountValue) {
                 document.getElementById('discountPreview').classList.add('hidden');
                 return;
             }
-            
+
             const product = products[productId];
             const originalPrice = product.price;
             let discountAmount = 0;
             let finalPrice = originalPrice;
-            
+
             if (discountType === 'percentage') {
                 discountAmount = (originalPrice * discountValue) / 100;
                 finalPrice = originalPrice - discountAmount;
@@ -343,18 +366,18 @@
                 discountAmount = discountValue;
                 finalPrice = originalPrice - discountAmount;
             }
-            
+
             // Prevent negative prices
             if (finalPrice < 0) finalPrice = 0;
-            
+
             // Update preview
             document.getElementById('originalPrice').textContent = `Rp ${originalPrice.toLocaleString('id-ID')}`;
-            document.getElementById('discountAmount').textContent = discountType === 'percentage' 
-                ? `-${discountValue}% (Rp ${discountAmount.toLocaleString('id-ID')})` 
-                : `-Rp ${discountAmount.toLocaleString('id-ID')}`;
+            document.getElementById('discountAmount').textContent = discountType === 'percentage' ?
+                `-${discountValue}% (Rp ${discountAmount.toLocaleString('id-ID')})` :
+                `-Rp ${discountAmount.toLocaleString('id-ID')}`;
             document.getElementById('finalPrice').textContent = `Rp ${finalPrice.toLocaleString('id-ID')}`;
             document.getElementById('savings').textContent = `${((discountAmount/originalPrice)*100).toFixed(1)}%`;
-            
+
             document.getElementById('discountPreview').classList.remove('hidden');
         }
 
@@ -370,25 +393,25 @@
         // Form submission
         discountForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const formData = new FormData(this);
             const productId = formData.get('product_id');
             const discountType = formData.get('discount_type');
             const discountValue = formData.get('discount_value');
-            
+
             if (!productId || !discountType || !discountValue) {
                 alert('Mohon lengkapi semua field yang required');
                 return;
             }
-            
+
             // Here you would normally send the data to your Laravel backend
             console.log('Form data:', Object.fromEntries(formData));
-            
+
             alert('Diskon produk berhasil disimpan!');
             discountModal.classList.add('hidden');
             discountForm.reset();
             hidePreview();
-            
+
             // Optionally reload the page or update the table dynamically
             // location.reload();
         });
