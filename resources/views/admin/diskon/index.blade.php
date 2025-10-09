@@ -265,38 +265,7 @@
 
     <script>
         // Product data for preview
-        const products = {
-            1: {
-                name: 'Bantal Empuk Premium',
-                price: 150000,
-                sku: 'BNT001',
-                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=BNT'
-            },
-            2: {
-                name: 'Seprai Katun Organik',
-                price: 300000,
-                sku: 'SPR002',
-                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=SPR'
-            },
-            3: {
-                name: 'Guling Microfiber',
-                price: 85000,
-                sku: 'GUL003',
-                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=GUL'
-            },
-            4: {
-                name: 'Selimut Tebal Winter',
-                price: 250000,
-                sku: 'SLM004',
-                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=SLM'
-            },
-            5: {
-                name: 'Set Sprei King Size',
-                price: 450000,
-                sku: 'SET005',
-                image: 'https://via.placeholder.com/64/E5E7EB/6B7280?text=SET'
-            }
-        };
+       const products = @json($products); 
 
         // Modal functionality
         const addDiscountBtn = document.getElementById('addDiscountBtn');
@@ -330,11 +299,10 @@
 
             if (productId && products[productId]) {
                 const product = products[productId];
-
-                document.getElementById('previewImage').src = product.image;
+                console.log(product.cover)
+                document.getElementById('previewImage').src = `/storage/${product.cover}`;
                 document.getElementById('previewName').textContent = product.name;
                 document.getElementById('previewPrice').textContent = `Rp ${product.price.toLocaleString('id-ID')}`;
-                document.getElementById('previewSKU').textContent = `SKU: ${product.sku}`;
 
                 preview.classList.remove('hidden');
                 updateDiscountPreview();

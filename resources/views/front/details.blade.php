@@ -48,7 +48,7 @@
                                 class="font-semibold text-2xl sm:text-3xl lg:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-[#B05CB0] to-[#FCB16B]">
                                 Rp {{number_format($product->price)}}</p>
                             <div class="flex flex-col gap-3 text-sm">
-                                @foreach (['100% Original Content','High Quality Product'] as $benefit)
+                                @foreach (['100% Original Product','High Quality Product'] as $benefit)
                                 <div class="flex items-center gap-2">
                                     <img src="{{asset('/images/icons/check.svg')}}" class="w-4 h-4" alt="icon">
                                     <p class="text-belibang-grey">{{$benefit}}</p>
@@ -115,6 +115,7 @@
 </section>
 
 <x-footer/>
+
 
 
 @endsection

@@ -14,7 +14,11 @@ class DiskonController extends Controller
      */
     public function index()
     {
-       $products = Product::where('creator_id', Auth::id())->get();
+        $products = Product::where('creator_id', Auth::id())
+                          ->get()
+                          ->keyBy('id'); // <<< Kunci penting!
+
+        // Kirim data ke view
         return view('admin.diskon.index', [
             'products' => $products
         ]);
