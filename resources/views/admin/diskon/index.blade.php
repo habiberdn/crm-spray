@@ -155,7 +155,7 @@
                     <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
                     <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
-                        <form id="discountForm">
+                        <form method="POST" action="{{route('front.diskon.store')}}" id="discountForm" >
                             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
                                     <div class="w-full">

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('type', ['fixed', 'percentage'])->default('fixed');
             $table->string("value");
             $table->date('start_date');
-            $table->string('status');
+            $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif');
             $table->dateTime('end_datetime');
             $table->timestamps();
         });

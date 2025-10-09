@@ -6,6 +6,8 @@ use App\Models\Diskon;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class DiskonController extends Controller
 {
@@ -37,7 +39,41 @@ class DiskonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'type' => ['required', 'string', 'max:255'],
+            'value' => ['required', 'image', 'mimes:png,jpg,jpeg'],
+            'start_date' => ['required', 'string', 'max:65535'],
+            'start_date' => ['required', 'string', 'max:65535'],
+
+        ]);
+        
+        DB::beginTransaction();
+
+        try{
+            if($request->hasFile('cover')){
+                $coverPath = $request->file('cover')->store('product_covers', 'public');
+                $validated['cover'] = $coverPath;
+            }
+            if($request->hasFile('path_file')){
+                $path_filePath = $request->file('path_file')->store('product_files', 'public');
+                $validated['path_file'] = $path_filePath;
+            }
+            $validated['creator_id'] = Auth::id();
+            $newProduct = Product::create($validated);
+            DB::commit();
+
+            return redirect()->route('admin.products.index')->with('success', 'Product created successfuly!');
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+
+            $error = ValidationException::withMessages([
+                'system_error' => ['System error!' . $e->getMessage()],
+            ]);
+
+            throw $error;
+        }
+
     }
 
     /**
