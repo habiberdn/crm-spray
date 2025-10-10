@@ -33,12 +33,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout/{product:slug}', [CheckoutController::class, 'checkout'])->name('front.checkout');
     Route::post('/checkout/store/{product:slug}', [CheckoutController::class, 'store'])->name('front.checkout.store');
 
-    Route::post('/diskon', [DiskonController::class, 'store'])->name('front.diskon.store');
-
+    
     Route::prefix('admin')->name('admin.')->group(function(){
         Route::resource('products', ProductController::class);
         Route::resource('diskon', DiskonController::class);
-
+        
+        // Route::post('/diskon', [DiskonController::class, 'store'])->name('front.diskon.store');
         Route::resource('product_orders', ProductOrderController::class);
         
         Route::get('/transactions', [ProductOrderController::class, 'transactions'])->name('product_orders.transactions');

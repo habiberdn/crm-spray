@@ -39,6 +39,7 @@ class DiskonController extends Controller
      */
     public function store(Request $request)
     {
+        var_dump("Masukk");
         $validated = $request->validate([
             'type' => ['required', 'string', 'max:255'],
             'value' => ['required', 'image', 'mimes:png,jpg,jpeg'],
@@ -46,15 +47,14 @@ class DiskonController extends Controller
             'end__datetime' => ['required', 'string', 'max:65535'],
             'status' => ['required', 'string', 'max:65535'],
         ]);
-        
         DB::beginTransaction();
-
+        die();
         try{
            
             Diskon::create($validated);
             DB::commit();
 
-            return redirect()->route('admin.diskon.index')->with('success', 'Diskon created successfuly!');
+            return redirect()->route('admin.diskon')->with('success', 'Diskon created successfuly!');
         }
         catch(\Exception $e){
             DB::rollBack();

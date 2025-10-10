@@ -155,7 +155,8 @@
                     <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
                     <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
-                        <form method="POST" action="{{route('front.diskon.store')}}" id="discountForm" >
+                        <form  method="POST" action="{{route('admin.diskon.store')}}" id="discountForm" >
+                            @csrf
                             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
                                     <div class="w-full">
@@ -359,30 +360,30 @@
         }
 
         // Form submission
-        discountForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+        // discountForm.addEventListener('submit', function(e) {
+        //     e.preventDefault();
 
-            const formData = new FormData(this);
-            const productId = formData.get('product_id');
-            const discountType = formData.get('discount_type');
-            const discountValue = formData.get('discount_value');
+        //     const formData = new FormData(this);
+        //     const productId = formData.get('product_id');
+        //     const discountType = formData.get('discount_type');
+        //     const discountValue = formData.get('discount_value');
 
-            if (!productId || !discountType || !discountValue) {
-                alert('Mohon lengkapi semua field yang required');
-                return;
-            }
+        //     if (!productId || !discountType || !discountValue) {
+        //         alert('Mohon lengkapi semua field yang required');
+        //         return;
+        //     }
 
-            // Here you would normally send the data to your Laravel backend
-            console.log('Form data:', Object.fromEntries(formData));
+        //     // Here you would normally send the data to your Laravel backend
+        //     console.log('Form data:', Object.fromEntries(formData));
 
-            alert('Diskon produk berhasil disimpan!');
-            discountModal.classList.add('hidden');
-            discountForm.reset();
-            hidePreview();
+        //     alert('Diskon produk berhasil disimpan!');
+        //     discountModal.classList.add('hidden');
+        //     discountForm.reset();
+        //     hidePreview();
 
-            // Optionally reload the page or update the table dynamically
-            // location.reload();
-        });
+        //     // Optionally reload the page or update the table dynamically
+        //     // location.reload();
+        // });
 
         // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];

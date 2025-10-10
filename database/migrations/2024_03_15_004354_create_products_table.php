@@ -17,17 +17,16 @@ return new class extends Migration
             $table->string('slug');
             $table->string('cover');
             $table->unsignedBigInteger('price');
-            // $table->unsignedBigInteger('diskon');
-            // $table->datetimes('mulai_diskon');
-            // $table->unsignedBigInteger('akhir_diskon');
-
-
             $table->text('about');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('creator_id');
             $table->softDeletes();
             $table->timestamps();
-
+            $table->foreignId('diskon_id')
+              ->nullable()
+              ->after('creator_id') // Posisi kolom
+              ->constrained()
+              ->onDelete('set null'); // Boleh null jika produk tidak selalu diskon
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
@@ -38,5 +37,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('products');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['diskon_id']);
+            $table->dropColumn('diskon_id');
+        });
     }
 };

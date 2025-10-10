@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Diskon extends Model
 {
@@ -17,5 +18,8 @@ class Diskon extends Model
         'end_date'
     ];
 
-
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
 }
