@@ -17,12 +17,14 @@ class DiskonController extends Controller
     public function index()
     {
         $products = Product::where('creator_id', Auth::id())
-                          ->get()
-                          ->keyBy('id'); // <<< Kunci penting!
+            ->get()
+            ->keyBy('id');
+        $diskon = Diskon::all();
 
         // Kirim data ke view
         return view('admin.diskon.index', [
-            'products' => $products
+            'products' => $products,
+            "diskons" => $diskon
         ]);
     }
 
@@ -39,25 +41,28 @@ class DiskonController extends Controller
      */
     public function store(Request $request)
     {
-        var_dump("Masukk");
         $validated = $request->validate([
             'type' => ['required', 'string', 'max:255'],
-            'value' => ['required', 'image', 'mimes:png,jpg,jpeg'],
-            'start_date' => ['required', 'string', 'max:65535'],
-            'end__datetime' => ['required', 'string', 'max:65535'],
-            'status' => ['required', 'string', 'max:65535'],
+            'value' => ['required', 'string', 'max:255'],
+            'product_id' => ['required', 'string', 'max:255'],
+            'start_date' => ['required', 'date'],
+            'end_datetime' => ['required', 'date'],
+            'status' => ['nullable', 'string', 'in:aktif,tidak aktif'],
         ]);
         DB::beginTransaction();
-        die();
-        try{
-           
+        try {
+
             Diskon::create($validated);
             DB::commit();
 
-            return redirect()->route('admin.diskon')->with('success', 'Diskon created successfuly!');
-        }
-        catch(\Exception $e){
+            return redirect()->route('admin.diskon.index')->with('success', 'Diskon created successfuly!');
+        } catch (\Exception $e) {
             DB::rollBack();
+            if ($e->getCode() == 23000) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['product_id' => 'Produk ini telah memiliki diskon']);
+            }
 
             $error = ValidationException::withMessages([
                 'system_error' => ['System error!' . $e->getMessage()],
@@ -65,7 +70,6 @@ class DiskonController extends Controller
 
             throw $error;
         }
-
     }
 
     /**
@@ -97,6 +101,13 @@ class DiskonController extends Controller
      */
     public function destroy(Diskon $diskon)
     {
-        //
+        try {
+            $diskon->delete();
+            return redirect()->route('admin.diskon.index')->with('success', 'Diskon telah dihapus!');
+        } catch (\Exception $e) {
+            $error = ValidationException::withMessages([
+                'system_error' => ['System error!' . $e->getMessage()],
+            ]);
+        }
     }
 }

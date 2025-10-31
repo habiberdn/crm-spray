@@ -18,6 +18,7 @@ class CheckoutController extends Controller
         ]);
     }
 
+    
     public function store(Request $request, Product $product){
         // validasi agar pembeli tidak membeli produknya sendiri
         if($product->creator_id === Auth::id()){

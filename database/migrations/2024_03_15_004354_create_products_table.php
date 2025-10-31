@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('slug');
             $table->string('cover');
             $table->unsignedBigInteger('price');
@@ -22,11 +22,6 @@ return new class extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->softDeletes();
             $table->timestamps();
-            $table->foreignId('diskon_id')
-              ->nullable()
-              ->after('creator_id') // Posisi kolom
-              ->constrained()
-              ->onDelete('set null'); // Boleh null jika produk tidak selalu diskon
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

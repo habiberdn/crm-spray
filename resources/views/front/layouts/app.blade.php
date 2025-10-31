@@ -14,7 +14,7 @@
     <title>@yield('title')</title>
 </head>
 
-<body class="bg-belibang-black font-poppins text-white">
+<body class="bg-[#510825] font-poppins text-white">
 
     @yield('content')
 

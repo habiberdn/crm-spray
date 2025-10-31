@@ -15,11 +15,8 @@ class Diskon extends Model
         'type',
         'value',
         'start_date',
-        'end_date'
+        'end_datetime',
+        'product_id'
     ];
 
-    public function products(): HasMany
-    {
-        return $this->hasMany(Product::class);
-    }
 }

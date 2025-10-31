@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Diskon;
 
 class Product extends Model
@@ -24,8 +24,8 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function diskon(): BelongsTo
+    public function diskon(): HasOne
     {
-        return $this->belongsTo(Diskon::class);
+        return $this->hasOne(Diskon::class);
     }
 }

@@ -18,6 +18,9 @@ return new class extends Migration
             $table->date('start_date');
             $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif');
             $table->dateTime('end_datetime');
+            $table->foreignId('product_id')
+              ->nullable()->unique()
+              ->onDelete('set null'); 
             $table->timestamps();
         });
     }

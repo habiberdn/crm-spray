@@ -1,4 +1,4 @@
-<footer class="bg-[#181818] py-[34px]">
+<footer class="bg-[#510825] py-[34px] ">
     <div class="container max-w-[1130px] mx-auto flex flex-col gap-[66px]">
         <div class="flex justify-between">
             <div class="flex flex-col justify-between">

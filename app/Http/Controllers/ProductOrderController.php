@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Diskon;
+
 use App\Models\ProductOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,15 +19,19 @@ class ProductOrderController extends Controller
     {
         //
         $my_orders = ProductOrder::where('creator_id', Auth::id())->get();
+        $diskon = Diskon::all();
         return view('admin.product_orders.index', [
-            'my_orders' => $my_orders
+            'my_orders' => $my_orders,
+            'diskons' =>$diskon
         ]);
     }
 
     public function transactions(){
         $my_transactions = ProductOrder::where('buyer_id', Auth::id())->get();
+        $diskon = Diskon::all();
         return view('admin.product_orders.transactions', [
-            'my_transactions' => $my_transactions
+            'my_transactions' => $my_transactions,
+            'diskons' =>$diskon
         ]);
     }
 
