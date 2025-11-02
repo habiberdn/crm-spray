@@ -60,18 +60,7 @@
             </a>
 
             @forelse($categories as $category)
-                <a href="{{ route('front.category', $category) }}"
-                    class="group category-card w-fit h-fit p-[2px] rounded-2xl bg-gradient-to-br from-pink-400 to-pink-300 hover:from-pink-500 hover:to-pink-400 transition-all duration-300 shadow-lg hover:shadow-xl">
-                    <div
-                        class="flex flex-col p-[18px] rounded-2xl w-[210px] bg-gradient-to-br from-pink-50 to-white group-active:bg-pink-100 transition-all duration-300">
-                        <div class="w-[50px] h-[50px] flex shrink-0 items-center justify-center bg-pink-100 rounded-xl">
-                            <img src="{{ asset($category->icon) }}" alt="{{ $category->name }} icon">
-                        </div>
-                        <div class="px-[6px] flex flex-col text-left mt-[8px]">
-                            <p class="font-bold text-sm text-pink-700">{{ $category->name }}</p>
-                        </div>
-                    </div>
-                </a>
+               <x-categories :category="$category"/>
             @empty
             @endforelse
         </div>
@@ -84,7 +73,8 @@
                     class="group category-card flex-shrink-0 w-40 sm:w-48 h-fit p-[2px] rounded-2xl bg-gradient-to-br from-pink-400 to-pink-300 hover:from-pink-500 hover:to-pink-400 transition-all duration-300 shadow-lg hover:shadow-xl">
                     <div
                         class="flex flex-col p-4 sm:p-[18px] rounded-2xl bg-gradient-to-br from-pink-50 to-white group-active:bg-pink-100 transition-all duration-300">
-                        <div class="w-10 h-10 sm:w-[50px] sm:h-[50px] flex shrink-0 items-center justify-center bg-pink-100 rounded-xl">
+                        <div
+                            class="w-10 h-10 sm:w-[50px] sm:h-[50px] flex shrink-0 items-center justify-center bg-pink-100 rounded-xl">
                             <img src="{{ asset('images/trolley.png') }}" alt="all products icon"
                                 class="w-full h-full object-contain">
                         </div>
@@ -95,19 +85,7 @@
                 </a>
 
                 @forelse($categories as $category)
-                    <a href="{{ route('front.category', $category) }}"
-                        class="group category-card flex-shrink-0 w-40 sm:w-48 h-fit p-[2px] rounded-2xl bg-gradient-to-br from-pink-400 to-pink-300 hover:from-pink-500 hover:to-pink-400 transition-all duration-300 shadow-lg hover:shadow-xl">
-                        <div
-                            class="flex flex-col p-4 sm:p-[18px] rounded-2xl bg-gradient-to-br from-pink-50 to-white group-active:bg-pink-100 transition-all duration-300">
-                            <div class="w-10 h-10 sm:w-[50px] sm:h-[50px] flex shrink-0 items-center justify-center bg-pink-100 rounded-xl">
-                                <img src="{{ asset($category->icon) }}" alt="{{ $category->name }} icon"
-                                    class="w-full h-full object-contain">
-                            </div>
-                            <div class="px-1 sm:px-[6px] flex flex-col text-left mt-2 sm:mt-[8px]">
-                                <p class="font-bold text-xs sm:text-sm text-pink-700">{{ $category->name }}</p>
-                            </div>
-                        </div>
-                    </a>
+                   <x-categories :category="$category"  />
                 @empty
                 @endforelse
             </div>
@@ -115,100 +93,13 @@
     </section>
 
     <!-- New Products Section -->
-    <section id="NewProduct"
-        class="container max-w-[1130px] mx-auto  mb-16 sm:mb-[102px] flex flex-col gap-6 sm:gap-8">
+    <section id="NewProduct" class="container max-w-[1130px] mx-auto  mb-16 sm:mb-[102px] flex flex-col gap-6 sm:gap-8">
         <h2 class="font-semibold text-xl sm:text-2xl lg:text-[32px] text-center sm:text-left">New Product</h2>
 
         <!-- Products Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-[22px]">
             @forelse($products as $product)
-                <div
-                    class="product-card flex flex-col rounded-[18px] bg-pink-50 overflow-hidden hover:transform hover:scale-105 transition-all duration-300 border border-pink-100">
-                    <!-- Product Thumbnail -->
-                    <a href="{{ route('front.details', $product->slug) }}"
-                        class="thumbnail w-full h-40 sm:h-[180px] flex shrink-0 overflow-hidden relative group">
-                        <img src="{{ Storage::url($product->cover) }}"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                            alt="{{ $product->name }} thumbnail">
-                        <div class="absolute inset-0 bg-pink-900/20 group-hover:bg-pink-900/40 transition-all duration-300"></div>
-
-                        <!-- Price Badge with Discount -->
-                        <div class="absolute top-2 sm:top-3 right-2 sm:right-[14px] z-10 flex flex-col items-end gap-1">
-                            @if ($product->diskon)
-                                <span
-                                    class="backdrop-blur bg-pink-100/80 rounded-[4px] px-2 py-1 text-xs text-gray-600 line-through">
-                                    Rp {{ number_format($product->price) }}
-                                </span>
-                                @if ($product->diskon && $product->diskon->type == 'percentage')
-                                    <span
-                                        class="backdrop-blur bg-pink-500 rounded-[4px] px-2 py-1 text-xs sm:text-sm font-bold text-white shadow-lg">
-                                        Rp
-                                        {{ number_format($product->price - ($product->price * $product->diskon->value) / 100) }}
-                                    </span>
-                                @elseif($product->diskon && $product->diskon->type == 'fixed')
-                                    <span
-                                        class="backdrop-blur bg-pink-500 rounded-[4px] px-2 py-1 text-xs sm:text-sm font-bold text-white shadow-lg">
-                                        Rp {{ number_format($product->price - $product->diskon->value) }}
-                                    </span>
-                                @else
-                                    <p
-                                        class="backdrop-blur bg-pink-100/80 rounded-[4px] p-[4px_8px] text-xs sm:text-sm font-medium text-gray-800">
-                                        Rp {{ number_format($product->price) }}
-                                    </p>
-                                @endif
-                            @else
-                                <span class="backdrop-blur bg-pink-100/80 rounded-[4px] px-2 py-1 text-xs text-gray-600">
-                                    Rp {{ number_format($product->price) }}
-                            @endif
-
-                        </div>
-                    </a>
-
-                    <!-- Product Info -->
-                    <div class="p-3 sm:p-[10px_14px_12px] h-full flex flex-col justify-between gap-3 sm:gap-[14px]">
-                        <div class="flex flex-col gap-1 sm:gap-2">
-                            <a href="{{ route('front.details', $product->slug) }}"
-                                class="font-semibold text-sm sm:text-base line-clamp-2 hover:line-clamp-none hover:text-pink-600 transition-colors duration-200 text-gray-800">
-                                {{ $product->name }}
-                            </a>
-
-                            <!-- Category and Discount Info -->
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <p
-                                    class="bg-pink-100 font-semibold text-xs text-pink-700 rounded-[4px] p-[4px_6px] w-fit">
-                                    {{ $product->category->name }}
-                                </p>
-                               
-                                @if ($product->diskon)
-                                    @if ($product->diskon->type == 'percentage')
-                                        <p
-                                            class="bg-pink-500/20 text-pink-600 font-semibold text-xs rounded-[4px] p-[4px_6px] w-fit border border-pink-300">
-                                            Hemat {{ number_format($product->diskon->value) }}%
-                                        </p>
-                                    @elseif ($product->diskon->type == 'fixed')
-                                        <p
-                                            class="bg-pink-500/20 text-pink-600 font-semibold text-xs rounded-[4px] p-[4px_6px] w-fit border border-pink-300">
-                                            Hemat Rp {{ number_format($product->diskon->value) }}
-                                        </p>
-                                    @endif
-                                @endif
-                            </div>
-                        </div>
-
-                        <!-- Creator Info -->
-                        <div class="flex items-center gap-2 sm:gap-[6px]">
-                            <div
-                                class="w-5 h-5 sm:w-6 sm:h-6 flex shrink-0 items-center justify-center rounded-full overflow-hidden border border-pink-200">
-                                <img src="{{ Storage::url($product->creator->avatar) }}" class="w-full h-full object-cover"
-                                    alt="{{ $product->creator->name }} avatar">
-                            </div>
-                            <a href="#"
-                                class="font-semibold text-xs text-gray-600 hover:text-pink-600 transition-colors duration-200 truncate">
-                                {{ $product->creator->name }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <x-card :product="$product" :cover="Storage::url($product->cover)" />
             @empty
                 <div class="col-span-full text-center py-12">
                     <div class="text-pink-300 text-lg">

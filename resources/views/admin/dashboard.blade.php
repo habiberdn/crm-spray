@@ -210,7 +210,8 @@
                         <div class="flex items-center gap-3 mt-2">
                             <div class="flex-1 bg-gray-200 rounded-full h-3 overflow-hidden">
                                 <div class="bg-gradient-to-r from-red-500 to-red-600 h-full rounded-full transition-all duration-500" 
-                                     style="width: {{ min($discountPercentage, 100) }}%"></div>
+                                     style="width: {{ min($discountPercentage, 100) }}%">
+                                    </div>
                             </div>
                             <span class="text-lg font-bold text-red-600">{{ number_format($discountPercentage, 1) }}%</span>
                         </div>
