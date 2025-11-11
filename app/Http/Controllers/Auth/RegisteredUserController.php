@@ -34,23 +34,24 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'avatar' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
             'occupation' => ['nullable', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:300'],
             'bank_name' => ['nullable', 'string', 'max:255'],
             'bank_account' => ['nullable', 'string', 'max:255'],
             'bank_account_number' => ['nullable', 'numeric', 'min:0'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        if($request->hasFile('avatar')){
+        if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        }
-        else{
+        } else {
             $avatarPath = 'images/avatar-default.svg';
         }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'alamat' => $request->alamat,
             'avatar' => $avatarPath, //menyimpan path image dari storage
             'occupation' => $request->occupation,
             'bank_account' => $request->bank_account,

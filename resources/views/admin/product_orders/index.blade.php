@@ -25,56 +25,61 @@
                     <h3 class="text-indigo-950 font-bold text-2xl">My Orders</h3>
                 </div>
                 @forelse($my_orders as $order)
-                    <div class="item-product flex flex-row justify-between items-center">
-                        <div class="flex flex-row items-center gap-x-5">
-                            <img src="{{ Storage::url($order->product->cover) }}" class="rounded-2xl h-[100px] w-auto"
-                                alt="">
+                    @if ($loop->index < count($diskons) == true)
+                        <div class="item-product flex flex-row justify-between items-center">
+                            <div class="flex flex-row items-center gap-x-5">
+                                <img src="{{ Storage::url($order->product->cover) }}"
+                                    class="rounded-2xl h-[100px] w-auto" alt="">
+                                <div>
+                                    <h3 class="text-indigo-950 font-bold text-xl">{{ $order->product->name }}</h3>
+                                    <p class="text-slate-500 text-sm">{{ $order->product->category->name }}</p>
+                                </div>
+                            </div>
                             <div>
-                                <h3 class="text-indigo-950 font-bold text-xl">{{ $order->product->name }}</h3>
-                                <p class="text-slate-500 text-sm">{{ $order->product->category->name }}</p>
+                                <p class="text-slate-500 text-sm">Total Price:</p>
+
+                                @if ($order->id == $diskons[$loop->index]->product_id)
+                                    @if ($diskons[$loop->index]->type == 'percentage')
+                                        <p class="text-indigo-950 font-bold text-xl">Rp
+                                            {{ number_format($order->total_price - ($order->total_price * (int) $diskons[$loop->index]->value) / 100) }}
+                                        </p>
+                                    @elseif($diskons[$loop->index]->type == 'percentage')
+                                        <p class="text-indigo-950 font-bold text-xl">Rp
+                                            {{ number_format($order->total_price - (int) $diskons[$loop->index]->value) }}
+                                        </p>
+                                    @else
+                                        <p class="text-indigo-950 font-bold text-xl">Rp
+                                            {{ number_format($order->total_price) }}
+                                        </p>
+                                    @endif
+                                @endif
+
+                            </div>
+                            <div>
+                                <p class="text-slate-500 text-sm">Status:</p>
+                                @if ($order->is_paid)
+                                    <span class="py-1 px-3 rounded-full bg-green-500 text-white font-bold text-sm">
+                                        SUCCESS
+                                    </span>
+                                @else
+                                    <span class="py-1 px-3 rounded-full bg-orange-500 text-white font-bold text-sm">
+                                        PENDING
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="flex flex-row gap-x-3">
+
+                                <a href="{{ route('admin.product_orders.show', $order) }}"
+                                    class="rounded-full font-bold py-3 px-5 bg-indigo-500 text-white">
+                                    View Details
+                                </a>
                             </div>
                         </div>
-                        <div>
-                            <p class="text-slate-500 text-sm">Total Price:</p>
-                            @if ($diskons[$loop->index] && $order->id == $diskons[$loop->index]->product_id)
-                                @if ($diskons[$loop->index]->type == 'percentage')
-                                    <p class="text-indigo-950 font-bold text-xl">Rp
-                                        {{ number_format($order->total_price - ($order->total_price * (int) $diskons[$loop->index]->value) / 100) }}
-                                    </p>
-                                @elseif($diskons[$loop->index]->type == 'percentage')
-                                    <p class="text-indigo-950 font-bold text-xl">Rp
-                                        {{ number_format($order->total_price - (int) $diskons[$loop->index]->value) }}
-                                    </p>
-                                @endif
-                            @else
-                                <p class="text-indigo-950 font-bold text-xl">Rp {{ number_format($order->total_price) }}
-                                </p>
-                            @endif
-                        </div>
-                        <div>
-                            <p class="text-slate-500 text-sm">Status:</p>
-                            @if ($order->is_paid)
-                                <span class="py-1 px-3 rounded-full bg-green-500 text-white font-bold text-sm">
-                                    SUCCESS
-                                </span>
-                            @else
-                                <span class="py-1 px-3 rounded-full bg-orange-500 text-white font-bold text-sm">
-                                    PENDING
-                                </span>
-                            @endif
-                        </div>
-                        <div class="flex flex-row gap-x-3">
-
-                            <a href="{{ route('admin.product_orders.show', $order) }}"
-                                class="rounded-full font-bold py-3 px-5 bg-indigo-500 text-white">
-                                View Details
-                            </a>
-
-                        </div>
-                    </div>
+                    @endif
                 @empty
-                    <p>Belum ada pembeli tersedia</p>
+                    <p>Belum ada barang yang dibeli</p>
                 @endforelse
+
             </div>
         </div>
     </div>

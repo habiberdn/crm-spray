@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('occupation')->nullable();
             $table->string('bank_account')->nullable();
             $table->string('bank_name')->nullable();
+            $table->string('alamat')->nullable();
             $table->string('bank_account_number')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

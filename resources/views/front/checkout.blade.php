@@ -1,305 +1,264 @@
 @extends('front.layouts.app')
-@section('title', 'Belibang Digital Marketplace')
+@section('title', 'Checkout - Belibang Digital Marketplace')
 @section('content')
 
-<nav class="w-full bg-[#00000010] backdrop-blur-lg z-10">
-    <div class="container max-w-[1130px] mx-auto flex items-center justify-between h-[74px]">
-        <div class="flex items-center gap-[26px]">
-            <a href="{{route('front.index')}}" class="flex w-[154px] shrink-0 items-center">
-                <img src="{{asset('images/logos/logo.svg')}}" alt="logo">
-            </a>
-            <ul class="flex gap-6 items-center">
-                <li class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300">
-                    <a href="{{route('front.index')}}">Home</a>
-                </li>
-                <li class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300 relative">
-                    <button id="menu-button" class="flex items-center gap-1 focus:text-belibang-light-grey">
-                        <span>Categories</span>
-                        <img src="{{asset('images/icons/arrow-down.svg')}}" alt="icon">
-                    </button>
-                    <div
-                        class="dropdown-menu hidden absolute top-[52px] grid grid-cols-2 p-4 gap-[10px] w-[526px] rounded-[20px] bg-[#1E1E1E] border border-[#414141] z-10">
-                        <div
-                            class="col-span-2 flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
-                            <div class="flex items-center">
-                                <a href="" class="w-[58px] h-[58px] flex shrink-0 flex items-center">
-                                    <img src="{{asset('images/icons/cart.svg')}}" alt="icon">
-                                </a>
-                                <a href="" class="flex flex-col">
-                                    <p class="font-bold text-sm text-white">All Products</p>
-                                    <p class="text-xs text-belibang-grey">Everything in One Place</p>
-                                </a>
-                            </div>
-                            <div class="w-6 h-6 flex shrink-0">
-                                <img src="{{asset('images/icons/crown.svg')}}" alt="icon">
-                            </div>
-                        </div>
-                        <div
-                            class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
-                            <div class="flex items-center">
-                                <a href="{{route('front.category', 3)}}" class="w-[58px] h-[58px] flex shrink-0 flex items-center">
-                                    <img src="{{asset('images/ic_template.svg')}}" alt="icon">
-                                </a>
-                                <a href="{{route('front.category', 3)}}" class="flex flex-col">
-                                    <p class="font-bold text-sm text-white">Templates</p>
-                                    <p class="text-xs text-belibang-grey">Designs Made Easy</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div
-                            class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
-                            <div class="flex items-center">
-                                <a href="{{route('front.category', 2)}}" class="w-[58px] h-[58px] flex shrink-0 flex items-center">
-                                    <img src="{{asset('images/ic_course.svg')}}" alt="icon">
-                                </a>
-                                <a href="{{route('front.category', 2)}}" class="flex flex-col">
-                                    <p class="font-bold text-sm text-white">Courses</p>
-                                    <p class="text-xs text-belibang-grey">Expand Your Skills</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div
-                            class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
-                            <div class="flex items-center">
-                                <a href="{{route('front.category', 1)}}" class="w-[58px] h-[58px] flex shrink-0 flex items-center">
-                                    <img src="{{asset('images/ic_ebook.svg')}}" alt="icon">
-                                </a>
-                                <a href="{{route('front.category', 1)}}" class="flex flex-col">
-                                    <p class="font-bold text-sm text-white">Ebooks</p>
-                                    <p class="text-xs text-belibang-grey">Read and Learn</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div
-                            class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
-                            <div class="flex items-center">
-                                <a href="{{route('front.category', 4)}}" class="w-[58px] h-[58px] flex shrink-0 flex items-center">
-                                    <img src="{{asset('images/ic_font.svg')}}" alt="icon">
-                                </a>
-                                <a href="{{route('front.category', 4)}}" class="flex flex-col">
-                                    <p class="font-bold text-sm text-white">Fonts</p>
-                                    <p class="text-xs text-belibang-grey">Typography Selection</p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300">
-                    <a href="">Stories</a>
-                </li>
-                <li class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300">
-                    <a href="">Benefits</a>
-                </li>
-                <li class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300">
-                    <a href="">About</a>
-                </li>
-            </ul>
-        </div>
-        <div class="flex gap-6 items-center">
-            @guest
-            <a href="{{route('login')}}" class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300">Log
-                in</a>
-            <a href="{{route('register')}}"
-                class="p-[8px_16px] w-fit h-fit rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300">Sign
-                up</a>
-            @endguest
+    <x-navbar />
 
-            @auth
-            <a href="{{route('admin.dashboard')}}"
-                class="p-[8px_16px] w-fit h-fit rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300">My Dashboard</a>
-            @endauth
+    <!-- Header Section -->
+    <header class="w-full pt-[74px] pb-[103px] relative z-0">
+        <div class="container max-w-[1130px] mx-auto flex flex-col z-10 px-4">
+            <div class="flex flex-col gap-4 mt-7 z-10">
+                <h1 class="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[55px] leading-tight text-white">
+                    Checkout Product
+                </h1>
+                <p class="text-pink-100 text-lg">Complete your purchase securely</p>
+            </div>
         </div>
-    </div>
-</nav>
+        <div class="w-full h-full absolute top-0 bg-[#510825] z-0"></div>
+    </header>
 
-    @if($errors->any())
-        <div class="alert alert-danger max-w-3xl mx-auto">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li class="py-5 bg-red-500 text-white font-bold">
-                        {{$error}}
-                    </li>
-                @endforeach    
-            </ul>
+    @if ($errors->any())
+        <div class="container max-w-[1130px] mx-auto px-4 -mt-16 mb-8 relative z-10">
+            <div class="bg-red-500/90 backdrop-blur rounded-[20px] p-6 shadow-xl">
+                <ul class="space-y-2">
+                    @foreach ($errors->all() as $error)
+                        <li class="text-white font-semibold flex items-start gap-2">
+                            <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            {{ $error }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
     @endif
 
-    <section id="checkout" class="container max-w-[1130px] mx-auto mt-[30px]">
-        <div class="w-full flex justify-center gap-[118px]">
-            <div class="product-info flex flex-col gap-4 w-min h-fit mt-[18px]">
-                <h1 class="font-semibold text-[32px] ">Checkout Product</h1>
-                <div class="product-detail flex flex-col gap-3">
-                    <div class="thumbnail w-[412px] h-[255px] flex shrink-0 rounded-[20px] overflow-hidden">
-                        <img src="{{Storage::url($product->cover)}}" class="w-full h-full object-cover"
-                            alt="thumbnail">
-                    </div>
-                    <div class="product-title flex flex-col gap-[30px]">
-                        <div class="flex flex-col gap-3">
-                            <p class="font-semibold">{{$product->name}}
-                            </p>
-                            <p
-                                class="bg-[#2A2A2A] font-semibold text-xs text-belibang-grey rounded-[4px] p-[4px_6px] w-fit">
-                                {{$product->category->name}}</p>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full flex shrink-0 overflow-hidden">
-                                    <img src="{{Storage::url($product->creator->avatar)}}" alt="logo">
-                                </div>
-                                <p class="font-semibold text-belibang-grey">{{$product->creator->name}}</p>
+    <!-- Main Checkout Section -->
+    <section id="checkout" class="container max-w-[1130px] mx-auto mb-[102px] relative -top-[70px] px-4">
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- Product Info -->
+            <div class="flex flex-col gap-6 w-full lg:w-[700px] shrink-0">
+                <div
+                    class="w-full h-[250px] sm:h-[400px] md:h-[500px] flex shrink-0 rounded-[20px] overflow-hidden shadow-2xl">
+                    <img src="{{ Storage::url($product->cover) }}" class="w-full h-full object-cover"
+                        alt="{{ $product->name }}">
+                </div>
+
+                <div class="flex flex-col p-6 gap-5 bg-gradient-to-br from-pink-600 to-pink-700 rounded-[20px] shadow-xl">
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1">
+                                <p
+                                    class="bg-pink-500/30 backdrop-blur font-semibold text-xs text-white rounded-[6px] px-3 py-1.5 w-fit mb-3">
+                                    {{ $product->category->name }}
+                                </p>
+                                <h2 class="font-semibold text-2xl text-white mb-4">{{ $product->name }}</h2>
                             </div>
-                            <p
-                                class="font-semibold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-[#B05CB0] to-[#FCB16B]">
-                                Rp {{number_format($product->price)}}</p>
+                            <p class="font-semibold text-3xl sm:text-4xl text-white shrink-0">
+                                Rp {{ number_format($product->price) }}
+                            </p>
+                        </div>
+
+                        <div class="flex items-center gap-3 pt-4 border-t border-pink-400/30">
+                            <div class="w-12 h-12 rounded-full flex shrink-0 overflow-hidden border-2 border-pink-300">
+                                <img src="{{ Storage::url($product->creator->avatar) }}" class="w-full h-full object-cover"
+                                    alt="{{ $product->creator->name }}">
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-pink-100 text-xs">Created by</p>
+                                <p class="font-semibold text-white">{{ $product->creator->name }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <form method="POST" action="{{route('front.checkout.store', $product->slug)}}" enctype="multipart/form-data"
-                class="flex flex-col p-[30px] gap-[60px] rounded-[20px] w-[450px] border-2 border-belibang-darker-grey">
 
-                @csrf
+            <!-- Checkout Form -->
+            <div class="flex flex-col w-full lg:w-[366px] gap-6 flex-nowrap">
 
+                <!-- Transfer Information -->
+                <div class="p-[2px] bg-gradient-to-br from-pink-400 to-pink-500 rounded-[20px] flex w-full h-fit shadow-xl">
+                    <div class="w-full p-6 bg-white rounded-[20px] flex flex-col gap-6">
+                        <h3 class="font-semibold text-xl text-gray-800">Transfer Details</h3>
 
-                <div class="w-full flex flex-col gap-4">
-                    <p class="font-semibold text-xl">Transfer to:</p>
-                    <div class="flex flex-col gap-3">
-                        <div class="flex gap-3">
-                            <div
-                                class="flex items-center gap-1 p-[12px_20px] pl-4 w-[163px] justify-between rounded-lg bg-[#181818] hover:ring-[1px] hover:ring-[#A0A0A0] focus:ring-[1px] focus:ring-[#A0A0A0] transition-all duration-300">
-                                <div class="flex flex-col">
-                                    <label for="bank" class="text-xs text-belibang-grey pl-1">Bank Name</label>
-                                    <select name="bank" id="bank"
-                                        class="mt-1 font-semibold bg-transparent appearance-none outline-none px-1 invalid:text-[#595959] invalid:font-normal invalid:text-sm"
-                                        required>
-                                        <option class="text-belibang-black" value="Angga Bank" selected>
-                                            {{$product->creator->bank_name}}</option>
-                                    </select>
-                                </div>
-                                <div class="w-6 h-6 flex shrink-0">
-                                    <img src="{{asset('images/icons/bank.svg')}}" alt="icon">
+                        <div class="flex flex-col gap-4">
+                            <!-- Bank Name -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-medium text-gray-600">Bank Name</label>
+                                <div class="flex items-center gap-3 p-4 bg-pink-50 rounded-lg border border-pink-200">
+                                    <img src="{{ asset('images/icons/bank.svg') }}" class="w-5 h-5" alt="icon">
+                                    <span class="font-semibold text-gray-800">{{ $product->creator->bank_name }}</span>
                                 </div>
                             </div>
-                            <div
-                                class="flex items-center gap-1 p-[12px_20px] pl-4 w-[215px] justify-between rounded-lg bg-[#181818] hover:ring-[1px] hover:ring-[#A0A0A0] focus:ring-[1px] focus:ring-[#A0A0A0] transition-all duration-300">
-                                <div class="flex flex-col w-full">
-                                    <label for="name" class="text-xs text-belibang-grey pl-1">Account Name</label>
-                                    <div class="flex mt-1 items-center max-w-[149px]">
-                                        <input disabled type="text" name="name" value="{{$product->creator->bank_account}}" id="name"
-                                            class="font-semibold bg-transparent appearance-none autofull-no-bg outline-none px-1 placeholder:text-[#595959] placeholder:font-normal placeholder:text-sm w-full"
-                                            placeholder="Type here" required></input>
+
+                            <!-- Account Name -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-medium text-gray-600">Account Name</label>
+                                <div class="flex items-center gap-3 p-4 bg-pink-50 rounded-lg border border-pink-200">
+                                    <img src="{{ asset('images/icons/user-square.svg') }}" class="w-5 h-5" alt="icon">
+                                    <span class="font-semibold text-gray-800">{{ $product->creator->bank_account }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Account Number -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-medium text-gray-600">Account Number</label>
+                                <div class="flex items-center gap-3 p-4 bg-pink-50 rounded-lg border border-pink-200">
+                                    <img src="{{ asset('images/icons/card.svg') }}" class="w-5 h-5" alt="icon">
+                                    <span
+                                        class="font-semibold text-gray-800">{{ $product->creator->bank_account_number }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Proof Upload -->
+                <div class="p-[2px] bg-gradient-to-br from-pink-400 to-pink-500 rounded-[20px] flex w-full h-fit shadow-xl">
+                    <div class="w-full p-6 bg-white rounded-[20px] flex flex-col gap-6">
+                        <h3 class="font-semibold text-xl text-gray-800">Payment Confirmation</h3>
+                       
+                        <form method="POST" action="{{ route('front.checkout.store', $product->slug) }}"
+                            enctype="multipart/form-data" class="flex flex-col gap-4">
+                            @csrf
+
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                <p class="text-sm text-blue-700 leading-relaxed">
+                                    Please upload your payment proof. We will verify and confirm your purchase as soon as
+                                    possible.
+                                </p>
+                            </div>
+
+                            <div class="flex flex-col gap-3">
+                                <label class="text-sm font-medium text-gray-600">Upload Payment Proof</label>
+
+                                <button type="button"
+                                    class="flex gap-2 items-center justify-center p-4 border-2 border-dashed border-pink-300 rounded-lg hover:border-pink-400 hover:bg-pink-50 transition-all duration-300"
+                                    onclick="document.getElementById('proof').click()">
+                                    <img src="{{ asset('images/icons/document-upload.svg') }}" class="w-5 h-5"
+                                        alt="icon">
+                                    <span class="font-medium text-gray-700">Choose File</span>
+                                </button>
+
+                                <input type="file" name="proof" id="proof" class="hidden" onchange="previewFile()"
+                                    accept="image/*" required>
+
+                                <div
+                                    class="relative rounded-lg overflow-hidden bg-pink-50 border border-pink-200 h-[120px]">
+                                    <div class="relative file-preview z-10 w-full h-full hidden">
+                                        <img src="{{ asset('images/icons/check.svg') }}"
+                                            class="check-icon absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-12 h-12 z-20"
+                                            alt="icon">
+                                        <img src="" class="thumbnail-proof w-full h-full object-cover"
+                                            alt="thumbnail">
+                                    </div>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                                        <img src="{{ asset('images/icons/gallery.svg') }}" class="w-8 h-8 opacity-40"
+                                            alt="icon">
+                                        <p class="text-sm text-gray-400">Preview will appear here</p>
                                     </div>
                                 </div>
-                                <div class="w-6 h-6 flex shrink-0">
-                                    <img src="{{asset('images/icons/user-square.svg')}}" alt="icon">
-                                </div>
                             </div>
-                        </div>
-                        <div
-                            class="flex items-center gap-1 p-[12px_20px] pl-4 justify-between rounded-lg bg-[#181818] hover:ring-[1px] hover:ring-[#A0A0A0] focus:ring-[1px] focus:ring-[#A0A0A0] transition-all duration-300">
-                            <div class="flex flex-col w-full">
-                                <label for="number" class="text-xs text-belibang-grey pl-1">Account Number</label>
-                                <div class="flex mt-1 items-center max-w-[322px]">
-                                    <input type="tel" name="number" disabled id="number"
-                                        class="mt-1 font-semibold bg-transparent appearance-none autofull-no-bg outline-none px-1 placeholder:text-[#595959] placeholder:font-normal placeholder:text-sm w-full"
-                                        placeholder="Type here" value="{{$product->creator->bank_account_number}}" pattern="[0-9 -]" required></input>
-                                </div>
-                            </div>
-                            <div class="w-6 h-6 flex shrink-0">
-                                <img src="{{asset('images/icons/card.svg')}}" alt="icon">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full flex flex-col gap-4">
-                    <p class="font-semibold text-xl">Confirm Payment</p>
-                    <div class="flex flex-col gap-3">
-                        <p class="text-xs text-[#2D68F8] p-[10px_22px] rounded-lg bg-[#2D68F805]">Please upload proof of
-                            payment we will confirm it as soon as possible</p>
-                        <div class="flex gap-3">
-                            <button type="button"
-                                class="flex gap-2 shrink-0 w-[291px] h-[48px] p-[12px_18px] justify-center items-center border border-dashed border-[#595959] rounded-lg hover:bg-[#2A2A2A] transition-all duration-300"
-                                onclick="document.getElementById('proof').click()">
-                                <p>Choose File</p>
-                                <img src="{{asset('images/icons/document-upload.svg')}}" alt="icon">
+
+                            <button type="submit"
+                                class="bg-pink-600 text-center font-semibold py-4 px-5 rounded-full hover:bg-pink-700 active:bg-pink-800 transition-all duration-300 text-white shadow-lg mt-2">
+                                Complete Checkout
                             </button>
-                            <input type="file" name="proof" id="proof" class="hidden" onchange="previewFile()" required>
-                            <div class="relative rounded-lg overflow-hidden bg-[#181818] w-full h-[48px]">
-                                <div class="relative file-preview z-10 w-full h-full hidden">
-                                    <img src="{{asset('images/icons/check.svg')}}"
-                                        class="check-icon absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                                        alt="icon">
-                                    <img src="" class="thumbnail-proof w-full h-full object-cover" alt="thumbnail">
-                                </div>
-                                <img src="{{asset('images/icons/gallery.svg')}}"
-                                    class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                                    alt="icon">
-                            </div>
+                        </form>
+
+                        <div class="flex items-center gap-2 pt-4 border-t border-gray-200">
+                            <svg class="w-5 h-5 text-pink-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <p class="text-xs text-gray-600">Your payment is secure and encrypted</p>
                         </div>
                     </div>
-                    <button type="submit"
-                        class="rounded-full text-center bg-[#2D68F8] p-[8px_18px] font-semibold hover:bg-[#083297] active:bg-[#062162] transition-all duration-300">Checkout
-                        Now</button>
                 </div>
 
-            </form>
+            </div>
         </div>
     </section>
+
+    <x-footer />
+
+    <script>
+        function previewFile() {
+            const preview = document.querySelector('.file-preview');
+            const thumbnail = document.querySelector('.thumbnail-proof');
+            const file = document.getElementById('proof').files[0];
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function() {
+                thumbnail.src = reader.result;
+                preview.classList.remove('hidden');
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 
 @endsection
 
 @push('after-script')
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script>
-    function previewFile() {
-        var preview = document.querySelector('.file-preview');
-        var fileInput = document.querySelector('input[type=file]').files[0];
-        var reader = new FileReader();
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        function previewFile() {
+            var preview = document.querySelector('.file-preview');
+            var fileInput = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
 
-        reader.onloadend = function () {
-            var img = preview.querySelector('.thumbnail-proof'); // Get the thumbnail image element
-            img.src = reader.result; // Update src attribute with the uploaded file
-            preview.classList.remove('hidden'); // Remove the 'hidden' class to display the preview
-        }
-
-        if (fileInput) {
-            reader.readAsDataURL(fileInput);
-        } else {
-            preview.classList.add('hidden'); // Hide preview if no file selected
-        }
-    }
-</script>
-<script>
-    function copyTextFunc(id) {
-        var copyText = document.getElementById(id);
-
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); // For mobile devices
-
-        document.execCommand("copy");
-
-        alert("Copied the text: " + copyText.value);
-    }
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const menuButton = document.getElementById('menu-button');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
-
-        menuButton.addEventListener('click', function () {
-            dropdownMenu.classList.toggle('hidden');
-        });
-
-        // Close the dropdown menu when clicking outside of it
-        document.addEventListener('click', function (event) {
-            const isClickInside = menuButton.contains(event.target) || dropdownMenu.contains(event.target);
-            if (!isClickInside) {
-                dropdownMenu.classList.add('hidden');
+            reader.onloadend = function() {
+                var img = preview.querySelector('.thumbnail-proof'); // Get the thumbnail image element
+                img.src = reader.result; // Update src attribute with the uploaded file
+                preview.classList.remove('hidden'); // Remove the 'hidden' class to display the preview
             }
+
+            if (fileInput) {
+                reader.readAsDataURL(fileInput);
+            } else {
+                preview.classList.add('hidden'); // Hide preview if no file selected
+            }
+        }
+    </script>
+    <script>
+        function copyTextFunc(id) {
+            var copyText = document.getElementById(id);
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            document.execCommand("copy");
+
+            alert("Copied the text: " + copyText.value);
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('menu-button');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            menuButton.addEventListener('click', function() {
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            // Close the dropdown menu when clicking outside of it
+            document.addEventListener('click', function(event) {
+                const isClickInside = menuButton.contains(event.target) || dropdownMenu.contains(event
+                    .target);
+                if (!isClickInside) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
         });
-    });
-</script>
+    </script>
 @endpush

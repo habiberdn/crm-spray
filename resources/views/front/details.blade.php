@@ -71,14 +71,17 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <a href="{{ route('front.checkout', $product->slug) }}"
-                                    class="bg-pink-600 text-center font-semibold py-3 px-5 rounded-full hover:bg-pink-700 active:bg-pink-800 transition-all duration-300 text-white shadow-lg">
-                                    Checkout
-                                </a>
-                                <a href="{{ route('front.checkout', $product->slug) }}"
-                                    class="bg-pink-600 text-center font-semibold py-3 px-5 rounded-full hover:bg-pink-700 active:bg-pink-800 transition-all duration-300 text-white shadow-lg">
-                                    + Keranjang
-                                </a>
+                                <div class="flex flex-col gap-2">
+                                    <a href="{{ route('front.checkout', $product->slug) }}"
+                                        class="bg-pink-600 text-center font-semibold py-3 px-5 rounded-full hover:bg-pink-700 active:bg-pink-800 transition-all duration-300 text-white shadow-lg">
+                                        Checkout
+                                    </a>
+                                    <a href="{{ route('cart.add', $product->slug) }}"
+                                        class="bg-pink-600 text-center font-semibold py-3 px-5 rounded-full hover:bg-pink-700 active:bg-pink-800 transition-all duration-300 text-white shadow-lg">
+                                        + Keranjang
+                                    </a>
+
+                                </div>
                                 <p class="text-sm text-gray-600">
                                     Butuh informasi lebih lanjut?
                                     <a href="https://wa.link/gfhop2"
@@ -106,12 +109,13 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <div class="flex gap-2">
-                                    <a href="{{ route('front.checkout', $product->slug) }}"
+                                <div class="flex flex-col gap-2">
+                                    <a href="{{ route('front.checkout', parameters: $product->slug) }}"
                                         class="bg-pink-600 text-center font-semibold py-3 px-5 rounded-full hover:bg-pink-700 active:bg-pink-800 transition-all duration-300 text-white shadow-lg">
                                         Checkout
                                     </a>
-                                    <a href="{{ route('front.checkout', $product->slug) }}"
+                                  
+                                    <a href="{{ route('cart.add', $product) }}"
                                         class="bg-pink-600 text-center font-semibold py-3 px-5 rounded-full hover:bg-pink-700 active:bg-pink-800 transition-all duration-300 text-white shadow-lg">
                                         + Keranjang
                                     </a>
@@ -127,6 +131,7 @@
                             <div class="flex gap-3 items-center">
                                 <img src="{{ Storage::url($product->creator->avatar) }}"
                                     class="w-12 h-12 rounded-full object-cover border-2 border-pink-300" alt="icon">
+                                  
                                 <div class="flex flex-col">
                                     <p class="font-semibold text-gray-800">{{ $product->creator->name }}</p>
                                     <p class="text-gray-600 text-sm leading-5">

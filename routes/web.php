@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
@@ -30,25 +31,30 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Checkout 
     Route::get('/checkout/{product:slug}', [CheckoutController::class, 'checkout'])->name('front.checkout');
     Route::post('/checkout/store/{product:slug}', [CheckoutController::class, 'store'])->name('front.checkout.store');
 
-    
-    Route::prefix('admin')->name('admin.')->group(function(){
+    // Cart
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/update', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('products', ProductController::class);
         Route::resource('diskon', DiskonController::class);
-        
-        // Route::post('/diskon', [DiskonController::class, 'store'])->name('front.diskon.store');
+
         Route::resource('product_orders', ProductOrderController::class);
-        
+
         Route::get('/transactions', [ProductOrderController::class, 'transactions'])->name('product_orders.transactions');
         Route::get('/transactions/details/{productOrder}', [ProductOrderController::class, 'transactions_details'])->name('product_orders.transactions.details');
 
         Route::get('/download/file/{productOrder}', [ProductOrderController::class, 'download_file'])->name('product_orders.download')->middleware('throttle:1,1');
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
