@@ -17,13 +17,10 @@
                         <span>Categories</span>
                         <img src="{{ asset('images/icons/arrow-down.svg') }}" alt="icon">
                     </button>
-                    <div
-                        class="dropdown-menu hidden absolute top-[52px] grid grid-cols-2 p-4 gap-[10px] w-[526px] rounded-[20px] bg-[#510825] border border-[#414141] z-10">
-                        <div
-                            class="col-span-2 flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
+                    <div class="dropdown-menu hidden absolute top-[52px] grid grid-cols-2 p-4 gap-[10px] w-[526px] rounded-[20px] bg-[#510825] border border-[#414141] z-10">
+                        <div class="col-span-2 flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <div class="flex items-center gap-2">
-                                <a href="{{ route('front.category', 0) }}"
-                                    class="w-[50px] h-[58px] flex shrink-0 flex items-center">
+                                <a href="{{ route('front.category', 0) }}" class="w-[50px] h-[58px] flex shrink-0 items-center">
                                     <img src="{{ asset('images/trolley.png') }}" alt="icon">
                                 </a>
                                 <a href="{{ route('front.category', 0) }}" class="flex flex-col">
@@ -34,11 +31,9 @@
                                 <img src="{{ asset('images/icons/crown.svg') }}" alt="icon">
                             </div>
                         </div>
-                        <div
-                            class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
+                        <div class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <div class="flex items-center gap-2">
-                                <a href="{{ route('front.category', 1) }}"
-                                    class="w-[40px] h-[40px] flex shrink-0 flex items-center">
+                                <a href="{{ route('front.category', 1) }}" class="w-[40px] h-[40px] flex shrink-0 items-center">
                                     <img src="{{ asset('images/pillow.png') }}" alt="icon">
                                 </a>
                                 <a href="{{ route('front.category', 1) }}" class="flex flex-col">
@@ -46,11 +41,9 @@
                                 </a>
                             </div>
                         </div>
-                        <div
-                            class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
+                        <div class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <div class="flex items-center gap-2">
-                                <a href="{{ route('front.category', 2) }}"
-                                    class="w-[40px] h-[40px] flex shrink-0 flex items-center">
+                                <a href="{{ route('front.category', 2) }}" class="w-[40px] h-[40px] flex shrink-0 items-center">
                                     <img src="{{ asset('images/double-bed.png') }}" alt="icon">
                                 </a>
                                 <a href="{{ route('front.category', 2) }}" class="flex flex-col">
@@ -58,11 +51,9 @@
                                 </a>
                             </div>
                         </div>
-                        <div
-                            class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
+                        <div class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <div class="flex items-center gap-2">
-                                <a href="{{ route('front.category', 3) }}"
-                                    class="w-[40px] h-[40px] flex shrink-0 flex items-center">
+                                <a href="{{ route('front.category', 3) }}" class="w-[40px] h-[40px] flex shrink-0 items-center">
                                     <img src="{{ asset('images/other.png') }}" alt="icon">
                                 </a>
                                 <a href="{{ route('front.category', 3) }}" class="flex flex-col">
@@ -89,16 +80,12 @@
             </button>
 
             @guest
-                <a href="{{ route('login') }}"
-                    class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300 text-sm md:text-base">Masuk</a>
-                <a href="{{ route('register') }}"
-                    class="p-[6px_12px] md:p-[8px_16px] w-fit h-fit rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300 text-sm md:text-base">Daftar</a>
+                <a href="{{ route('login') }}" class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300 text-sm md:text-base">Masuk</a>
+                <a href="{{ route('register') }}" class="p-[6px_12px] md:p-[8px_16px] w-fit h-fit rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300 text-sm md:text-base">Daftar</a>
             @endguest
 
             @auth
-                <a href="{{ route('admin.dashboard') }}"
-                    class="p-[6px_12px] md:p-[8px_16px] w-fit h-fit rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300 text-sm md:text-base">My
-                    Dashboard</a>
+                <a href="{{ route('admin.dashboard') }}" class="p-[6px_12px] md:p-[8px_16px] w-fit h-fit rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300 text-sm md:text-base">My Dashboard</a>
             @endauth
         </div>
 
@@ -132,13 +119,9 @@
                                 <h4 class="text-white font-semibold text-sm mb-1">{{ $item['name'] }}</h4>
                                 <p class="text-belibang-grey text-xs">Rp {{ number_format($item['price'], 0, ',', '.') }}</p>
                                 <div class="flex items-center gap-2 mt-2">
-                                    <button onclick="updateCartQuantity({{ $id }}, -1)" class="w-6 h-6 bg-[#414141] hover:bg-[#510825] text-white rounded flex items-center justify-center transition-all">
-                                        -
-                                    </button>
+                                    <button onclick="updateCartQuantity({{ $id }}, -1)" class="w-6 h-6 bg-[#414141] hover:bg-[#510825] text-white rounded flex items-center justify-center transition-all">-</button>
                                     <span class="text-white text-sm w-6 text-center quantity-display">{{ $item['quantity'] }}</span>
-                                    <button onclick="updateCartQuantity({{ $id }}, 1)" class="w-6 h-6 bg-[#414141] hover:bg-[#510825] text-white rounded flex items-center justify-center transition-all">
-                                        +
-                                    </button>
+                                    <button onclick="updateCartQuantity({{ $id }}, 1)" class="w-6 h-6 bg-[#414141] hover:bg-[#510825] text-white rounded flex items-center justify-center transition-all">+</button>
                                 </div>
                             </div>
                             <button onclick="removeCartItem({{ $id }})" class="text-red-500 hover:text-red-400 transition-all">
@@ -170,7 +153,7 @@
                         <span class="text-belibang-grey">Total:</span>
                         <span id="cart-total" class="text-white font-bold text-xl">Rp {{ number_format($total, 0, ',', '.') }}</span>
                     </div>
-                    <a href="{{ route('front.checkout') }}" class="block w-full bg-[#510825] hover:bg-[#6B0A32] text-white font-bold py-3 rounded-xl transition-all duration-300 text-center">
+                    <a href="{{ route('cart.checkout') }}" class="block w-full bg-[#510825] hover:bg-[#6B0A32] text-white font-bold py-3 rounded-xl transition-all duration-300 text-center">
                         Checkout
                     </a>
                 </div>
@@ -194,36 +177,29 @@
 
             <!-- Mobile Navigation Links -->
             <div class="space-y-4 mb-6">
-                <a href="{{ route('front.index') }}"
-                    class="block text-belibang-grey hover:text-belibang-light-grey transition-all duration-300 py-2">Home</a>
+                <a href="{{ route('front.index') }}" class="block text-belibang-grey hover:text-belibang-light-grey transition-all duration-300 py-2">Home</a>
 
                 <!-- Mobile Categories -->
                 <div class="space-y-2">
-                    <button id="mobile-categories-btn"
-                        class="flex items-center justify-between w-full text-belibang-grey hover:text-belibang-light-grey transition-all duration-300 py-2">
+                    <button id="mobile-categories-btn" class="flex items-center justify-between w-full text-belibang-grey hover:text-belibang-light-grey transition-all duration-300 py-2">
                         <span>Categories</span>
-                        <img src="{{ asset('images/icons/arrow-down.svg') }}" alt="icon"
-                            class="transform transition-transform duration-300">
+                        <img src="{{ asset('images/icons/arrow-down.svg') }}" alt="icon" class="transform transition-transform duration-300">
                     </button>
 
                     <div id="mobile-categories" class="hidden space-y-2 pl-4">
-                        <a href="{{ route('front.category', 0) }}"
-                            class="flex items-center gap-3 py-3 px-4 rounded-2xl border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
+                        <a href="{{ route('front.category', 0) }}" class="flex items-center gap-3 py-3 px-4 rounded-2xl border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <img src="{{ asset('images/trolley.png') }}" alt="icon" class="w-8 h-8">
                             <span class="font-bold text-sm text-white">Semua Produk</span>
                         </a>
-                        <a href="{{ route('front.category', 1) }}"
-                            class="flex items-center gap-3 py-3 px-4 rounded-2xl border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
+                        <a href="{{ route('front.category', 1) }}" class="flex items-center gap-3 py-3 px-4 rounded-2xl border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <img src="{{ asset('images/pillow.png') }}" alt="icon" class="w-8 h-8">
                             <span class="font-bold text-sm text-white">Bantal</span>
                         </a>
-                        <a href="{{ route('front.category', 2) }}"
-                            class="flex items-center gap-3 py-3 px-4 rounded-2xl border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
+                        <a href="{{ route('front.category', 2) }}" class="flex items-center gap-3 py-3 px-4 rounded-2xl border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <img src="{{ asset('images/double-bed.png') }}" alt="icon" class="w-8 h-8">
                             <span class="font-bold text-sm text-white">Seprai</span>
                         </a>
-                        <a href="{{ route('front.category', 3) }}"
-                            class="flex items-center gap-3 py-3 px-4 rounded-2xl border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
+                        <a href="{{ route('front.category', 3) }}" class="flex items-center gap-3 py-3 px-4 rounded-2xl border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <img src="{{ asset('images/other.png') }}" alt="icon" class="w-8 h-8">
                             <span class="font-bold text-sm text-white">Lainnya</span>
                         </a>
@@ -234,16 +210,12 @@
             <!-- Mobile Auth Buttons -->
             <div class="space-y-3 pt-4 border-t border-[#414141]">
                 @guest
-                    <a href="{{ route('login') }}"
-                        class="block text-center py-3 text-belibang-grey hover:text-belibang-light-grey transition-all duration-300">Masuk</a>
-                    <a href="{{ route('register') }}"
-                        class="block text-center p-3 rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300">Daftar</a>
+                    <a href="{{ route('login') }}" class="block text-center py-3 text-belibang-grey hover:text-belibang-light-grey transition-all duration-300">Masuk</a>
+                    <a href="{{ route('register') }}" class="block text-center p-3 rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300">Daftar</a>
                 @endguest
 
                 @auth
-                    <a href="{{ route('admin.dashboard') }}"
-                        class="block text-center p-3 rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300">My
-                        Dashboard</a>
+                    <a href="{{ route('admin.dashboard') }}" class="block text-center p-3 rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300">My Dashboard</a>
                 @endauth
             </div>
         </div>
@@ -251,29 +223,107 @@
 </nav>
 
 <script>
-    // Cart dropdown toggle
-    const cartButton = document.getElementById('cart-button');
-    const mobileCartButton = document.getElementById('mobile-cart-button');
-    const cartDropdown = document.getElementById('cart-dropdown');
-    const closeCart = document.getElementById('close-cart');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cart dropdown toggle
+        const cartButton = document.getElementById('cart-button');
+        const mobileCartButton = document.getElementById('mobile-cart-button');
+        const cartDropdown = document.getElementById('cart-dropdown');
+        const closeCart = document.getElementById('close-cart');
 
-    cartButton.addEventListener('click', function() {
-        cartDropdown.classList.toggle('hidden');
-    });
-
-    mobileCartButton.addEventListener('click', function() {
-        cartDropdown.classList.toggle('hidden');
-    });
-
-    closeCart.addEventListener('click', function() {
-        cartDropdown.classList.add('hidden');
-    });
-
-    // Close cart dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!cartButton.contains(e.target) && !mobileCartButton.contains(e.target) && !cartDropdown.contains(e.target)) {
-            cartDropdown.classList.add('hidden');
+        // Toggle cart dropdown on desktop
+        if (cartButton) {
+            cartButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                cartDropdown.classList.toggle('hidden');
+            });
         }
+
+        // Toggle cart dropdown on mobile
+        if (mobileCartButton) {
+            mobileCartButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                cartDropdown.classList.toggle('hidden');
+            });
+        }
+
+        // Close cart button
+        if (closeCart) {
+            closeCart.addEventListener('click', function() {
+                cartDropdown.classList.add('hidden');
+            });
+        }
+
+        // Close cart dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (cartDropdown && !cartDropdown.contains(e.target) && 
+                !cartButton?.contains(e.target) && 
+                !mobileCartButton?.contains(e.target)) {
+                cartDropdown.classList.add('hidden');
+            }
+        });
+
+        // Category dropdown functionality
+        const menuButton = document.getElementById('menu-button');
+        const dropdown = document.querySelector('.dropdown-menu');
+
+        if (menuButton && dropdown) {
+            menuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!menuButton.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', function() {
+                const spans = this.querySelectorAll('span');
+                mobileMenu.classList.toggle('hidden');
+
+                // Animate hamburger to X
+                if (!mobileMenu.classList.contains('hidden')) {
+                    spans[0].style.transform = 'rotate(45deg) translateY(6px)';
+                    spans[1].style.opacity = '0';
+                    spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
+                } else {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            });
+        }
+
+        // Mobile categories dropdown
+        const mobileCategoriesBtn = document.getElementById('mobile-categories-btn');
+        const mobileCategories = document.getElementById('mobile-categories');
+
+        if (mobileCategoriesBtn && mobileCategories) {
+            mobileCategoriesBtn.addEventListener('click', function() {
+                const arrow = this.querySelector('img');
+                mobileCategories.classList.toggle('hidden');
+                arrow?.classList.toggle('rotate-180');
+            });
+        }
+
+        // Close mobile menu when window is resized to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024 && mobileMenu && mobileMenuBtn) {
+                const spans = mobileMenuBtn.querySelectorAll('span');
+                mobileMenu.classList.add('hidden');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
     });
 
     // Update cart quantity via AJAX
@@ -292,10 +342,15 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                location.reload(); // Reload to update cart display
+                location.reload();
+            } else {
+                alert(data.message || 'Gagal memperbarui keranjang');
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat memperbarui keranjang');
+        });
     }
 
     // Remove item from cart via AJAX
@@ -314,92 +369,15 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    location.reload(); // Reload to update cart display
+                    location.reload();
+                } else {
+                    alert(data.message || 'Gagal menghapus produk dari keranjang');
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menghapus produk');
+            });
         }
     }
-
-    // Add to cart function (call this from product pages)
-    function addToCart(productId) {
-        fetch('{{ route("cart.add") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                product_id: productId,
-                quantity: 1
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Show notification
-                alert('Produk berhasil ditambahkan ke keranjang!');
-                location.reload(); // Reload to update cart count
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    // Category dropdown functionality
-    const menuButton = document.getElementById('menu-button');
-    const dropdown = document.querySelector('.dropdown-menu');
-
-    menuButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        dropdown.classList.toggle('hidden');
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!menuButton.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.classList.add('hidden');
-        }
-    });
-
-    // Mobile menu functionality
-    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-        const mobileMenu = document.getElementById('mobile-menu');
-        const spans = this.querySelectorAll('span');
-
-        mobileMenu.classList.toggle('hidden');
-
-        // Animate hamburger to X
-        if (!mobileMenu.classList.contains('hidden')) {
-            spans[0].style.transform = 'rotate(45deg) translateY(6px)';
-            spans[1].style.opacity = '0';
-            spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
-        } else {
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
-        }
-    });
-
-    // Mobile categories dropdown
-    document.getElementById('mobile-categories-btn').addEventListener('click', function() {
-        const mobileCategories = document.getElementById('mobile-categories');
-        const arrow = this.querySelector('img');
-
-        mobileCategories.classList.toggle('hidden');
-        arrow.classList.toggle('rotate-180');
-    });
-
-    // Close mobile menu when window is resized to desktop
-    window.addEventListener('resize', function() {
-        if (window.innerWidth >= 1024) {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const hamburger = document.getElementById('mobile-menu-btn');
-            const spans = hamburger.querySelectorAll('span');
-
-            mobileMenu.classList.add('hidden');
-            spans[0].style.transform = 'none';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = 'none';
-        }
-    });
 </script>
