@@ -78,9 +78,6 @@
                                     Harga Setelah Diskon</th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Berlaku Hingga</th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Status</th>
                                 <th
                                     class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -131,9 +128,7 @@
                                             @endphp
                                             Rp {{ number_format($hargaDiskon, 0, ',', '.') }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ \Carbon\Carbon::parse($diskon->end_datetime)->format('d M Y') }}
-                                        </td>
+                                      
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span
                                                 class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
@@ -276,24 +271,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <label class="block text-sm font-medium text-gray-700">Tanggal
-                                                        Mulai</label>
-                                                    <input type="date" name="start_date"
-                                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                                        required>
-                                                </div>
-                                                <div>
-                                                    <label class="block text-sm font-medium text-gray-700">Tanggal
-                                                        Berakhir</label>
-                                                    <input type="date" name="end_datetime"
-                                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                                        required>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>

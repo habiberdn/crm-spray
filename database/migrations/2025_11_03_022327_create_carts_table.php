@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('cover');
+            $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('quantity');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

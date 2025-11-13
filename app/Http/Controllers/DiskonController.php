@@ -45,8 +45,6 @@ class DiskonController extends Controller
             'type' => ['required', 'string', 'max:255'],
             'value' => ['required', 'string', 'max:255'],
             'product_id' => ['required', 'string', 'max:255'],
-            'start_date' => ['required', 'date'],
-            'end_datetime' => ['required', 'date'],
             'status' => ['nullable', 'string', 'in:aktif,tidak aktif'],
         ]);
         DB::beginTransaction();

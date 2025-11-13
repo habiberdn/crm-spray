@@ -18,7 +18,6 @@ class CheckoutController extends Controller
             'product' => $product
         ]);
     }
-
     
     public function store(Request $request, Product $product){
         // validasi agar pembeli tidak membeli produknya sendiri
@@ -66,63 +65,6 @@ class CheckoutController extends Controller
             ]);
 
             throw $error;
-        }
-    }
-
-      public function storeCart(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string',
-        ]);
-
-        $cart = session()->get('cart', []);
-
-        if (empty($cart)) {
-            return redirect()->route('front.index')
-                ->with('error', 'Keranjang Anda kosong');
-        }
-
-        DB::beginTransaction();
-
-        try {
-            $orders = [];
-
-            foreach ($cart as $productId => $item) {
-                $productOrder = ProductOrder::create([
-                    'product_id' => $productId,
-                    'user_id' => auth()->id(),
-                    'name' => $validated['name'],
-                    'email' => $validated['email'],
-                    'phone' => $validated['phone'],
-                    'address' => $validated['address'],
-                    'price' => $item['price'],
-                    'quantity' => $item['quantity'],
-                    'total_amount' => $item['price'] * $item['quantity'],
-                    'is_paid' => false,
-                ]);
-
-                $orders[] = $productOrder;
-            }
-
-            // Clear cart after successful order
-            session()->forget('cart');
-
-            DB::commit();
-
-            // Redirect to first order (or you can create a summary page)
-            return redirect()->route('admin.product_orders.show', $orders[0])
-                ->with('success', 'Pesanan berhasil dibuat! Silakan lakukan pembayaran untuk ' . count($orders) . ' produk.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Cart Checkout Error: ' . $e->getMessage());
-            
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat memproses pesanan. Silakan coba lagi.')
-                ->withInput();
         }
     }
 }

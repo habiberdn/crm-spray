@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('type', ['fixed', 'percentage'])->default('fixed');
             $table->string("value");
-            $table->date('start_date');
             $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif');
-            $table->dateTime('end_datetime');
             $table->foreignId('product_id')
               ->nullable()->unique()
               ->onDelete('set null'); 

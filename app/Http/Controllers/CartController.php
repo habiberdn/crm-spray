@@ -42,7 +42,8 @@ class CartController extends Controller
     {
         try {
             $cart = session()->get('cart', []);
-
+            // dd($product);
+            // die();
             // Check if product has discount
             $price = $product->price;
             if (isset($product->diskon)) {
@@ -58,7 +59,6 @@ class CartController extends Controller
             } else {
                 $cart[$product->id] = [
                     "name" => $product->name,
-                    "slug" => $product->slug,
                     "quantity" => 1,
                     "price" => $price, // Use discounted price
                     "original_price" => $product->price, // Keep original price
