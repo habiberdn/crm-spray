@@ -11,18 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+          Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('slug');
             $table->string('cover');
+
+            $table->foreignId('sub_category_id')->nullable()
+                ->constrained('subcategories')
+                ->onDelete('cascade');
+
             $table->unsignedBigInteger('price');
             $table->text('about');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('creator_id');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -31,10 +37,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign(['diskon_id']);
-            $table->dropColumn('diskon_id');
+         Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['subcategory_id']);
+            $table->dropColumn('subcategory_id');
         });
     }
 };

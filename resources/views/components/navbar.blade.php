@@ -18,7 +18,6 @@
                         <span>Categories</span>
                         <img src="{{ asset('images/icons/arrow-down.svg') }}" alt="icon" class="w-4 h-4">
                     </button>
-                    <!-- PERBAIKAN: Tambahkan left-0 untuk posisi dropdown -->
                     <div id="dropdown-menu"
                         class="hidden absolute left-0 top-[52px] grid grid-cols-2 p-4 gap-[10px] w-[526px] rounded-[20px] bg-[#510825] border border-[#414141] z-[9999]">
                         <div
@@ -88,7 +87,16 @@
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
                 @php
-                    $cartCount = is_array(session('cart')) ? array_sum(array_column(session('cart'), 'quantity')) : 0;
+                    // Hitung cart count dari session
+                    $cart = session()->get('cart', []);
+
+                    // Jika user login, sync dengan database
+                    if (auth()->check()) {
+                        $dbCartCount = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity');
+                        $cartCount = $dbCartCount;
+                    } else {
+                        $cartCount = is_array($cart) ? array_sum(array_column($cart, 'quantity')) : 0;
+                    }
                 @endphp
                 <span id="cart-count"
                     class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center {{ $cartCount > 0 ? '' : 'hidden' }}">{{ $cartCount }}</span>
@@ -133,16 +141,39 @@
 
             <!-- Cart Items Container -->
             <div id="cart-items" class="space-y-3 max-h-[400px] overflow-y-auto mb-4">
-                @if (session('cart') && count(session('cart')) > 0)
-                    @foreach (session('cart') as $id => $item)
+                @php
+                    // Ambil cart dari database jika user login
+                    if (auth()->check()) {
+                        $dbCarts = \App\Models\Cart::where('user_id', auth()->id())->get();
+
+                        $cart = [];
+                        foreach ($dbCarts as $dbCart) {
+                            if ($dbCart->id) {
+                                $cart[$dbCart->id] = [
+                                    'name' => $dbCart->name,
+                                    'cover' => $dbCart->cover,
+                                    'discount_price' => $dbCart->discount_price,
+                                    'quantity' => $dbCart->quantity,
+                                ];
+                            }
+                        }
+
+                        session()->put('cart', $cart);
+                    } else {
+                        $cart = session()->get('cart', []);
+                    }
+                @endphp
+
+                @if ($cart && count($cart) > 0)
+                    @foreach ($cart as $id => $item)
                         <div class="flex items-center gap-3 p-3 bg-[#2A2A2A] rounded-xl cart-item"
                             data-id="{{ $id }}">
-                            <img src="{{ Storage::url($item['image']) }}" alt="{{ $item['name'] }}"
+                            <img src="{{ Storage::url($item['cover']) }}" alt="{{ $item['name'] }}"
                                 class="w-16 h-16 object-cover rounded-lg">
                             <div class="flex-1">
                                 <h4 class="text-white font-semibold text-sm mb-1">{{ $item['name'] }}</h4>
                                 <p class="text-belibang-grey text-xs">Rp
-                                    {{ number_format($item['price'], 0, ',', '.') }}</p>
+                                    {{ number_format($item['discount_price'], 0, ',', '.') }}</p>
                                 <div class="flex items-center gap-2 mt-2">
                                     <button type="button" onclick="updateCartQuantity({{ $id }}, -1)"
                                         class="w-6 h-6 bg-[#414141] hover:bg-[#510825] text-white rounded flex items-center justify-center transition-all">-</button>
@@ -175,10 +206,10 @@
             </div>
 
             <!-- Cart Summary -->
-            @if (session('cart') && count(session('cart')) > 0)
+            @if ($cart && count($cart) > 0)
                 @php
-                    $total = collect(session('cart'))->sum(function ($item) {
-                        return $item['price'] * $item['quantity'];
+                    $total = collect($cart)->sum(function ($item) {
+                        return $item['discount_price'] * $item['quantity'];
                     });
                 @endphp
                 <div id="cart-summary" class="border-t border-[#414141] pt-4">
@@ -187,6 +218,7 @@
                         <span id="cart-total" class="text-white font-bold text-xl">Rp
                             {{ number_format($total, 0, ',', '.') }}</span>
                     </div>
+
                     <a href="{{ route('cart.checkout') }}"
                         class="block w-full bg-[#510825] hover:bg-[#6B0A32] text-white font-bold py-3 rounded-xl transition-all duration-300 text-center">
                         Checkout
@@ -263,9 +295,16 @@
                 @endguest
 
                 @auth
-                    <a href="{{ route('admin.dashboard') }}"
-                        class="block text-center p-3 rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300">My
-                        Dashboard</a>
+                    @if (auth()->user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="block text-center p-3 rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300">My
+                            Dashboard</a>
+                    @endif
+                    @if (auth()->user()->role === 'buyer')
+                        <a href="{{ route('admin.product_orders.transactions') }}"
+                            class="block text-center p-3 rounded-[12px] text-belibang-grey border border-belibang-dark-grey hover:bg-[#2A2A2A] hover:text-white transition-all duration-300">My
+                            Dashboard</a>
+                    @endif
                 @endauth
             </div>
         </div>
@@ -276,46 +315,27 @@
     (function() {
         'use strict';
 
-        console.log('Navigation script loaded');
-
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM Content Loaded');
-
             // ===== CATEGORY DROPDOWN (Desktop) =====
             const menuButton = document.getElementById('menu-button');
             const dropdownMenu = document.getElementById('dropdown-menu');
 
             if (menuButton && dropdownMenu) {
-                console.log('Category dropdown elements found!');
-
-                // Toggle dropdown
                 menuButton.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Menu button clicked!');
-
-                    const isHidden = dropdownMenu.classList.contains('hidden');
-                    console.log('Dropdown currently hidden:', isHidden);
-
                     dropdownMenu.classList.toggle('hidden');
-                    console.log('Dropdown toggled, now hidden:', dropdownMenu.classList.contains(
-                        'hidden'));
                 });
 
-                // Close when clicking outside
                 document.addEventListener('click', function(e) {
                     if (!menuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                        console.log('Clicked outside, closing dropdown');
                         dropdownMenu.classList.add('hidden');
                     }
                 });
 
-                // Prevent closing when clicking inside dropdown
                 dropdownMenu.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
-            } else {
-                console.error('Category dropdown elements not found!');
             }
 
             // ===== CART DROPDOWN =====
@@ -345,7 +365,6 @@
             }
 
             document.addEventListener('click', function(e) {
-                console.log("e.target: ",e.target)
                 if (cartDropdown && !cartDropdown.contains(e.target) &&
                     (!cartButton || !cartButton.contains(e.target)) &&
                     (!mobileCartButton || !mobileCartButton.contains(e.target))) {
@@ -400,32 +419,93 @@
             });
         });
     })();
+</script>
 
-    // ===== CART FUNCTIONS =====
+<script>
+    let pendingChanges = {};
+
     function updateCartQuantity(productId, change) {
-        fetch('{{ route('cart.update') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    change: change
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    alert(data.message || 'Gagal memperbarui keranjang');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan saat memperbarui keranjang');
+        const itemElement = document.querySelector(`.cart-item[data-id='${productId}']`);
+        if (!itemElement) return;
+
+        const quantityDisplay = itemElement.querySelector('.quantity-display');
+        const currentQuantity = parseInt(quantityDisplay.textContent);
+
+        // Simpan jumlah awal jika belum disimpan
+        if (!pendingChanges[productId]) {
+            pendingChanges[productId] = {
+                original: currentQuantity,
+                current: currentQuantity
+            };
+        }
+
+        // Update tampilan sementara
+        let newQuantity = pendingChanges[productId].current + change;
+        if (newQuantity < 1) newQuantity = 1;
+        pendingChanges[productId].current = newQuantity;
+        quantityDisplay.textContent = newQuantity;
+
+        // Jika belum ada tombol konfirmasi, tambahkan
+        if (!itemElement.querySelector('.confirm-buttons')) {
+            const confirmContainer = document.createElement('div');
+            confirmContainer.className = 'confirm-buttons flex gap-2 mt-2';
+
+            confirmContainer.innerHTML = `
+                <button type="button" class="flex-1 bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded transition-all confirm-change font-semibold">
+                    ✓ OK
+                </button>
+                <button type="button" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded transition-all cancel-change font-semibold">
+                    ✕ Batal
+                </button>
+            `;
+
+            itemElement.querySelector('.flex-1').appendChild(confirmContainer);
+
+            // Event confirm
+            confirmContainer.querySelector('.confirm-change').addEventListener('click', function() {
+                const totalChange = pendingChanges[productId].current - pendingChanges[productId].original;
+                fetch('{{ route('cart.update') }}', {
+                        method: 'POST', // Tetap POST
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            product_id: productId,
+                            change: totalChange
+                        })
+                    })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert(data.message || 'Gagal memperbarui keranjang');
+                            quantityDisplay.textContent = pendingChanges[productId].original;
+                            delete pendingChanges[productId];
+                            confirmContainer.remove();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat memperbarui keranjang');
+                        quantityDisplay.textContent = pendingChanges[productId].original;
+                        delete pendingChanges[productId];
+                        confirmContainer.remove();
+                    });
             });
+
+            // Event cancel
+            confirmContainer.querySelector('.cancel-change').addEventListener('click', function() {
+                quantityDisplay.textContent = pendingChanges[productId].original;
+                delete pendingChanges[productId];
+                confirmContainer.remove();
+            });
+        }
     }
 
     function removeCartItem(productId) {

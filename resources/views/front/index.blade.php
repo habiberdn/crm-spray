@@ -6,7 +6,7 @@
 
     <!-- Hero Section -->
     <header
-        class="w-full pt-16 sm:pt-[74px] pb-8 sm:pb-[34px] bg-[url('{{ asset('images/backgrounds/hero-image.png') }}')] bg-cover bg-no-repeat bg-center relative z-0 min-h-[400px] sm:min-h-[500px]">
+        class="w-full pt-16 sm:pt-[74px] pb-8 sm:pb-[34px] bg-[url('{{ asset('images/backgrounds/backgrounf.jpeg') }}')] bg-cover bg-no-repeat bg-center relative z-0 min-h-[400px] sm:min-h-[500px]">
         <div
             class="container max-w-[1130px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center gap-6 sm:gap-[34px] z-10 h-full">
             <!-- Hero Title -->
@@ -17,24 +17,7 @@
                 </h1>
             </div>
 
-            <!-- Search Bar -->
-            <div class="flex w-full justify-center mb-6 sm:mb-[34px] z-10 px-4">
-                <form action="{{ route('front.search') }}" method="GET"
-                    class="group/search-bar p-3 sm:p-[14px_18px] bg-pink-50 ring-1 ring-pink-200 hover:ring-pink-300 max-w-[560px] w-full rounded-full transition-all duration-300">
-                    <div class="relative text-left">
-                        <button type="button" class="absolute inset-y-0 left-0 flex items-center pl-1">
-                            <img src="{{ asset('images/icons/search-normal.svg') }}" alt="search icon"
-                                class="w-4 h-4 sm:w-5 sm:h-5">
-                        </button>
-                        <input name="keyword" type="text" id="searchInput"
-                            class="bg-pink-50 w-full pl-8 sm:pl-[36px] pr-10 focus:outline-none placeholder:text-pink-300 text-sm sm:text-base text-gray-800"
-                            placeholder="Type anything to search..." />
-                        <button type="reset" id="resetButton"
-                            class="close-button hidden w-6 h-6 sm:w-[38px] sm:h-[38px] flex shrink-0 bg-[url('{{ asset('images/icons/close.svg') }}')] hover:bg-[url('{{ asset('images/icons/close-white.svg') }}')] transition-all duration-300 appearance-none absolute top-1/2 right-2 transform -translate-y-1/2">
-                        </button>
-                    </div>
-                </form>
-            </div>
+            
         </div>
         <div class="w-full h-full absolute top-0 bg-gradient-to-b from-pink-900/70 to-pink-950 z-0"></div>
     </header>
@@ -60,9 +43,23 @@
             </a>
 
             @forelse($categories as $category)
-               <x-categories :category="$category"/>
+                <x-categories :category="$category" />
             @empty
             @endforelse
+            <a href="{{ route('front.subcategories') }}"
+                class="group category-card flex-shrink-0 w-40 sm:w-48 h-fit p-[2px] rounded-2xl bg-gradient-to-br from-pink-400 to-pink-300 hover:from-pink-500 hover:to-pink-400 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <div
+                    class="flex flex-col p-4 sm:p-[18px] rounded-2xl bg-gradient-to-br from-pink-50 to-white group-active:bg-pink-100 transition-all duration-300">
+                    <div
+                        class="w-10 h-10 sm:w-[50px] sm:h-[50px] flex shrink-0 items-center justify-center bg-pink-100 rounded-xl">
+                        <img src="{{ asset("images/other.png") }}" alt="{{ "Lainnya" }} icon"
+                            class="w-full h-full object-contain">
+                    </div>
+                    <div class="px-1 sm:px-[6px] flex flex-col text-left mt-2 sm:mt-[8px]">
+                        <p class="font-bold text-xs sm:text-sm text-pink-700">{{ 'Lainnya' }}</p>
+                    </div>
+                </div>
+            </a>
         </div>
 
         <!-- Mobile & Tablet Categories - Scrollable -->
@@ -85,7 +82,7 @@
                 </a>
 
                 @forelse($categories as $category)
-                   <x-categories :category="$category"  />
+                    <x-categories :category="$category" />
                 @empty
                 @endforelse
             </div>

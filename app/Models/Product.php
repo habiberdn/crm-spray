@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Diskon;
+use App\Models\Subcategories;
+
 
 class Product extends Model
 {
@@ -27,5 +29,10 @@ class Product extends Model
     public function diskon(): HasOne
     {
         return $this->hasOne(Diskon::class);
+    }
+
+    public function subCategory()
+    {
+        return $this->belongsTo(Subcategories::class, 'sub_category_id');
     }
 }

@@ -16,9 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('buyer_id');
+            $table->integer('quantity')->default(1);
             $table->unsignedBigInteger('total_price');
-            $table->boolean('is_paid');
-            $table->string('proof');
+            $table->boolean('is_paid')->default(false);
+            $table->string('proof')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_orders');
+        //
     }
 };

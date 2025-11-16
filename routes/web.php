@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\SubcategoriesController;
+
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
@@ -24,7 +26,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/details/{product:slug}', [FrontController::class, 'details'])->name('front.details');
 Route::get('/category/{category}', [FrontController::class, 'category'])->name('front.category');
+Route::get('/lainnya', [SubcategoriesController::class, 'index'])->name('front.subcategories');
 Route::get('/search', [FrontController::class, 'search'])->name('front.search');
+Route::get('/get-subcategories', [FrontController::class, 'getSubcategories'])->name('front.getSubcategories');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -34,7 +38,7 @@ Route::middleware('auth')->group(function () {
     // Checkout 
     Route::prefix('checkout')->name('front.checkout')->group(function () {
         Route::get('/{product:slug}', [CheckoutController::class, 'checkout']);
-        Route::post('/store/{product:slug}', [CheckoutController::class, 'store'])->name('.store');
+        Route::post('/store/{product:slug?}', [CheckoutController::class, 'store'])->name('.store');
     });
 
     // Cart

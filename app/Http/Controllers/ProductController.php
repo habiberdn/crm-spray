@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Subcategories;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,8 +32,10 @@ class ProductController extends Controller
     {
         //
         $categories = Category::all();
+        $Subcategories = Subcategories::all();
         return view('admin.products.create', [
-            'categories' => $categories
+            'categories' => $categories,
+            'subcategories' => $Subcategories
         ]);
     }
 
@@ -45,6 +48,7 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'cover' => ['required', 'image', 'mimes:png,jpg,jpeg'],
             'about' => ['required', 'string', 'max:65535'],
+            'sub_category_id' => ['nullable', 'string', 'max:30'],
             'category_id' => ['required', 'integer'],
             'price' => ['required', 'integer', 'min:0'],
         ]);

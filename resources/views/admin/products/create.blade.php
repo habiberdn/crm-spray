@@ -58,6 +58,21 @@
                     </div>
 
                     <div class="mt-4">
+                        <x-input-label for="sub_category_id" :value="__('Sub Category')" />
+                        <select name="sub_category_id" id="sub_category_id" class="w-full py-3 pl-5 border">
+                            <option value="">Pilih Sub Category</option>
+                             {{-- perulangan data category dari database --}}
+                            @forelse($subcategories as $category)
+                                <option value="{{$category->id}}">{{$category->name}}</option>
+                            @empty
+                            @endforelse
+                        </select>
+                        <p class="text-red-500 text-xs">*Tidak Wajib</p>
+                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
+                    </div>
+
+
+                    <div class="mt-4">
                         <x-input-label for="about" :value="__('Deskripsi')" />
                         <textarea name="about" id="about" class="w-full py-3 pl-5 border"></textarea>
                         <x-input-error :messages="$errors->get('category')" class="mt-2" />

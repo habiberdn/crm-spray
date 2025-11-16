@@ -4,7 +4,7 @@
 
     <x-navbar />
     <header
-        class="w-full pt-16 sm:pt-[74px] pb-8 sm:pb-[34px] bg-[url('{{ asset('images/backgrounds/hero-image.png') }}')] bg-cover bg-no-repeat bg-center relative z-0 min-h-[400px] sm:min-h-[500px]">
+        class="w-full pt-16 sm:pt-[74px] pb-8 sm:pb-[34px] bg-[url('{{ asset('images/backgrounds/backgrounf.jpeg') }}')] bg-cover bg-no-repeat bg-center relative z-0 min-h-[400px] sm:min-h-[500px]">
         <div
             class="container max-w-[1130px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center gap-6 sm:gap-[34px] z-10 h-full">
             >

@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('cover');
-            $table->unsignedBigInteger('price');
+            $table->decimal('discount_price', 15, 2); // Discounted price
+            $table->decimal('original_price', 15, 2);
             $table->unsignedBigInteger('quantity');
             $table->softDeletes();
             $table->timestamps();

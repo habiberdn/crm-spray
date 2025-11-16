@@ -29,13 +29,7 @@ class CategorySeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
-            [
-                'name' => 'Lainnya',
-                'slug' => 'lainnya',
-                'icon' => 'images/other.png',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
+        
         
         ]);
     }

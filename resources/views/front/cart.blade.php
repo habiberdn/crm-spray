@@ -18,8 +18,27 @@
         <div class="w-full h-full absolute top-0 bg-[#510825] z-0"></div>
     </header>
 
+    @if ($errors->any())
+        <div class="container max-w-[1130px] mx-auto px-4 -mt-8 mb-8 relative z-10">
+            <div class="bg-red-500/90 backdrop-blur rounded-[20px] p-6 shadow-xl">
+                <ul class="space-y-2">
+                    @foreach ($errors->all() as $error)
+                        <li class="text-white font-semibold flex items-start gap-2">
+                            <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            {{ $error }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
+
     <section class="container max-w-[1130px] mx-auto mb-[102px] relative -top-[30px] px-4">
-        @if(session('cart') && count(session('cart')) > 0)
+        @if($cart && count($cart) > 0)
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Cart Items Section -->
                 <div class="flex-1 flex flex-col gap-6">
@@ -31,16 +50,16 @@
                                 $subtotal = 0;
                             @endphp
                             
-                            @foreach(session('cart') as $id => $item)
+                            @foreach($cart as $id => $item)
                                 @php
-                                    $itemTotal = $item['price'] * $item['quantity'];
+                                    $itemTotal = $item['discount_price'] * $item['quantity'];
                                     $subtotal += $itemTotal;
                                 @endphp
                                 
                                 <div class="flex gap-4 p-4 bg-pink-50 rounded-xl border border-pink-100 hover:shadow-md transition-all duration-300">
                                     <!-- Product Image -->
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden">
-                                        <img src="{{ Storage::url($item['image']) }}" 
+                                        <img src="{{ Storage::url($item['cover']) }}" 
                                              alt="{{ $item['name'] }}" 
                                              class="w-full h-full object-cover">
                                     </div>
@@ -52,37 +71,24 @@
                                                 {{ $item['name'] }}
                                             </h3>
                                             <p class="text-pink-600 font-semibold text-xs sm:text-sm">
-                                                Rp {{ number_format($item['price'], 0, ',', '.') }}
+                                                Rp {{ number_format($item['discount_price'], 0, ',', '.') }}
                                             </p>
                                         </div>
                                         
                                         <div class="flex items-center justify-between mt-2">
-                                            <!-- Quantity Controls -->
+                                            <!-- Quantity Display (Read Only) -->
                                             <div class="flex items-center gap-2">
-                                                <button onclick="updateCartQuantity({{ $id }}, -1)" 
-                                                        class="w-7 h-7 bg-white hover:bg-pink-500 hover:text-white border border-pink-300 text-pink-600 rounded-lg flex items-center justify-center transition-all duration-200 font-semibold">
-                                                    -
-                                                </button>
-                                                <span class="text-gray-800 font-semibold text-sm w-8 text-center">
+                                                <span class="text-gray-600 text-sm">Qty:</span>
+                                                <span class="text-gray-800 font-semibold text-sm px-3 py-1 bg-white rounded-lg border border-pink-200 quantity-display">
                                                     {{ $item['quantity'] }}
                                                 </span>
-                                                <button onclick="updateCartQuantity({{ $id }}, 1)" 
-                                                        class="w-7 h-7 bg-white hover:bg-pink-500 hover:text-white border border-pink-300 text-pink-600 rounded-lg flex items-center justify-center transition-all duration-200 font-semibold">
-                                                    +
-                                                </button>
                                             </div>
                                             
-                                            <!-- Item Total & Remove -->
+                                            <!-- Item Total -->
                                             <div class="flex items-center gap-3">
                                                 <p class="font-bold text-gray-800 text-sm sm:text-base">
                                                     Rp {{ number_format($itemTotal, 0, ',', '.') }}
                                                 </p>
-                                                <button onclick="removeCartItem({{ $id }})" 
-                                                        class="text-red-500 hover:text-red-700 transition-colors p-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -92,107 +98,133 @@
                     </div>
                 </div>
 
-                <!-- Checkout Summary Sidebar -->
-                <div class="lg:w-[400px] flex-shrink-0">
-                    <div class="bg-white rounded-[20px] p-6 shadow-xl sticky top-24">
-                        <h2 class="font-semibold text-xl mb-6 text-gray-800">Ringkasan Belanja</h2>
+                <!-- Checkout Form Sidebar -->
+                <div class="w-full lg:w-[400px] flex-shrink-0">
+                    <div class="flex flex-col gap-6">
                         
                         <!-- Order Summary -->
-                        <div class="space-y-4 mb-6">
-                            <div class="flex justify-between text-gray-600">
-                                <span>Subtotal ({{ array_sum(array_column(session('cart'), 'quantity')) }} item)</span>
-                                <span class="font-semibold">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
-                            </div>
+                        <div class="bg-white rounded-[20px] p-6 shadow-xl">
+                            <h2 class="font-semibold text-xl mb-6 text-gray-800">Ringkasan Belanja</h2>
                             
-                            <div class="border-t border-gray-200 pt-4">
-                                <div class="flex justify-between text-lg font-bold text-gray-800">
-                                    <span>Total</span>
-                                    <span class="text-pink-600">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                            <div class="space-y-4 mb-6">
+                                <div class="flex justify-between text-gray-600">
+                                    <span>Subtotal ({{ array_sum(array_column($cart, 'quantity')) }} item)</span>
+                                    <span class="font-semibold">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                                </div>
+                                
+                                <div class="border-t border-gray-200 pt-4">
+                                    <div class="flex justify-between text-lg font-bold text-gray-800">
+                                        <span>Total</span>
+                                        <span class="text-pink-600">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Customer Information Form -->
-                        <form method="POST" action="{{ route('cart.process-checkout') }}" class="space-y-4">
-                            @csrf
+                        <!-- Transfer Information -->
+                        <div class="p-[2px] bg-gradient-to-br from-pink-400 to-pink-500 rounded-[20px] flex w-full h-fit shadow-xl">
+                            <div class="w-full p-6 bg-white rounded-[20px] flex flex-col gap-6">
+                                <h3 class="font-semibold text-xl text-gray-800">Transfer Details</h3>
+
+                                @php
+                                    // Ambil admin/owner pertama untuk transfer details
+                                    $admin = \App\Models\User::where('role', 'owner')->first();
+                                @endphp
+
+                                <div class="flex flex-col gap-4">
+                                    <!-- Bank Name -->
+                                    <div class="flex flex-col gap-2">
+                                        <label class="text-sm font-medium text-gray-600">Bank Name</label>
+                                        <div class="flex items-center gap-3 p-4 bg-pink-50 rounded-lg border border-pink-200">
+                                            <img src="{{ asset('images/icons/bank.svg') }}" class="w-5 h-5" alt="icon">
+                                            <span class="font-semibold text-gray-800">{{ $admin->bank_name ?? 'BRI' }}</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Account Name -->
+                                    <div class="flex flex-col gap-2">
+                                        <label class="text-sm font-medium text-gray-600">Account Name</label>
+                                        <div class="flex items-center gap-3 p-4 bg-pink-50 rounded-lg border border-pink-200">
+                                            <img src="{{ asset('images/icons/user-square.svg') }}" class="w-5 h-5" alt="icon">
+                                            <span class="font-semibold text-gray-800">{{ $admin->bank_account ?? 'SUSI ASTUTI' }}</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Account Number -->
+                                    <div class="flex flex-col gap-2">
+                                        <label class="text-sm font-medium text-gray-600">Account Number</label>
+                                        <div class="flex items-center justify-between gap-3 p-4 bg-pink-50 rounded-lg border border-pink-200">
+                                            <div class="flex items-center gap-3">
+                                                <img src="{{ asset('images/icons/card.svg') }}" class="w-5 h-5" alt="icon">
+                                                <span id="account-number" class="font-semibold text-gray-800">{{ $admin->bank_account_number ?? '5469-01-004554-53-7' }}</span>
+                                            </div>
+                                            <button type="button" onclick="copyTextFunc()" class="text-pink-600 hover:text-pink-700 text-sm font-semibold">
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Proof Upload -->
+                        <div class="p-[2px] bg-gradient-to-br from-pink-400 to-pink-500 rounded-[20px] flex w-full h-fit shadow-xl">
+                            <div class="w-full p-6 bg-white rounded-[20px] flex flex-col gap-6">
+                                <h3 class="font-semibold text-xl text-gray-800">Payment Confirmation</h3>
                             
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Nama Lengkap <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" 
-                                       name="name" 
-                                       required
-                                       value="{{ old('name', auth()->user()->name ?? '') }}"
-                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                       placeholder="Masukkan nama lengkap">
-                                @error('name')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                                <form method="POST" action="{{ route('front.checkout.store') }}" enctype="multipart/form-data" class="flex flex-col gap-4">
+                                    @csrf
+
+                                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                        <p class="text-sm text-blue-700 leading-relaxed">
+                                            Please upload your payment proof. We will verify and confirm your purchase as soon as possible.
+                                        </p>
+                                    </div>
+
+                                    <div class="flex flex-col gap-3">
+                                        <label class="text-sm font-medium text-gray-600">Upload Payment Proof</label>
+
+                                        <button type="button"
+                                            class="flex gap-2 items-center justify-center p-4 border-2 border-dashed border-pink-300 rounded-lg hover:border-pink-400 hover:bg-pink-50 transition-all duration-300"
+                                            onclick="document.getElementById('proof').click()">
+                                            <img src="{{ asset('images/icons/document-upload.svg') }}" class="w-5 h-5" alt="icon">
+                                            <span class="font-medium text-gray-700">Choose File</span>
+                                        </button>
+
+                                        <input type="file" name="proof" id="proof" class="hidden" onchange="previewFile()" accept="image/*" required>
+
+                                        <div class="relative rounded-lg overflow-hidden bg-pink-50 border border-pink-200 h-[120px]">
+                                            <div class="relative file-preview z-10 w-full h-full hidden">
+                                                <img src="{{ asset('images/icons/check.svg') }}"
+                                                    class="check-icon absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-12 h-12 z-20"
+                                                    alt="icon">
+                                                <img src="" class="thumbnail-proof w-full h-full object-cover" alt="thumbnail">
+                                            </div>
+                                            <div class="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                                                <img src="{{ asset('images/icons/gallery.svg') }}" class="w-8 h-8 opacity-40" alt="icon">
+                                                <p class="text-sm text-gray-400">Preview will appear here</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit"
+                                        class="bg-pink-600 text-center font-semibold py-4 px-5 rounded-full hover:bg-pink-700 active:bg-pink-800 transition-all duration-300 text-white shadow-lg mt-2">
+                                        Complete Checkout
+                                    </button>
+                                </form>
+
+                                <div class="flex items-center gap-2 pt-4 border-t border-gray-200">
+                                    <svg class="w-5 h-5 text-pink-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <p class="text-xs text-gray-600">Your payment is secure and encrypted</p>
+                                </div>
                             </div>
+                        </div>
 
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Email <span class="text-red-500">*</span>
-                                </label>
-                                <input type="email" 
-                                       name="email" 
-                                       required
-                                       value="{{ old('email', auth()->user()->email ?? '') }}"
-                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                       placeholder="email@example.com">
-                                @error('email')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Nomor WhatsApp <span class="text-red-500">*</span>
-                                </label>
-                                <input type="tel" 
-                                       name="phone" 
-                                       required
-                                       value="{{ old('phone') }}"
-                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                       placeholder="08123456789">
-                                @error('phone')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Alamat Lengkap <span class="text-red-500">*</span>
-                                </label>
-                                <textarea name="address" 
-                                          required
-                                          rows="3"
-                                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
-                                          placeholder="Masukkan alamat lengkap pengiriman">{{ old('address') }}</textarea>
-                                @error('address')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Catatan (Opsional)
-                                </label>
-                                <textarea name="notes" 
-                                          rows="2"
-                                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
-                                          placeholder="Catatan untuk penjual">{{ old('notes') }}</textarea>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <button type="submit"
-                                    class="w-full bg-pink-600 text-white font-bold py-4 rounded-full hover:bg-pink-700 active:bg-pink-800 transition-all duration-300 shadow-lg hover:shadow-xl">
-                                Proses Checkout
-                            </button>
-                        </form>
-
-                        <div class="mt-4 text-center">
+                        <div class="text-center">
                             <a href="{{ route('front.index') }}" 
                                class="text-pink-600 hover:text-pink-700 text-sm font-semibold inline-flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -226,71 +258,66 @@
 
 @push('after-script')
     <script>
-        // Update cart quantity via AJAX
-        function updateCartQuantity(productId, change) {
-            fetch('{{ route("cart.update") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    change: change
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    showToast(data.message || 'Gagal memperbarui keranjang', 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showToast('Terjadi kesalahan saat memperbarui keranjang', 'error');
-            });
-        }
+        function previewFile() {
+            const preview = document.querySelector('.file-preview');
+            const thumbnail = document.querySelector('.thumbnail-proof');
+            const file = document.getElementById('proof').files[0];
+            const reader = new FileReader();
 
-        // Remove item from cart via AJAX
-        function removeCartItem(productId) {
-            if (confirm('Hapus produk dari keranjang?')) {
-                fetch('{{ route("cart.remove") }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        product_id: productId
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload();
-                    } else {
-                        showToast(data.message || 'Gagal menghapus produk dari keranjang', 'error');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showToast('Terjadi kesalahan saat menghapus produk', 'error');
-                });
+            reader.addEventListener("load", function() {
+                thumbnail.src = reader.result;
+                preview.classList.remove('hidden');
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
             }
         }
 
-        // Toast notification function
+        function copyTextFunc() {
+            const accountNumber = document.getElementById('account-number').textContent;
+            
+            // Modern way using Clipboard API
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(accountNumber).then(function() {
+                    showToast('Nomor rekening berhasil disalin!', 'success');
+                }, function() {
+                    fallbackCopy(accountNumber);
+                });
+            } else {
+                fallbackCopy(accountNumber);
+            }
+        }
+
+        function fallbackCopy(text) {
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast('Nomor rekening berhasil disalin!', 'success');
+            } catch (err) {
+                showToast('Gagal menyalin nomor rekening', 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
-            toast.className = `fixed top-20 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in`;
+            toast.className = `fixed top-20 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300`;
+            toast.style.animation = 'slideInRight 0.3s ease-out';
             toast.textContent = message;
             document.body.appendChild(toast);
             
             setTimeout(() => {
-                toast.classList.add('animate-slide-out');
+                toast.style.animation = 'slideOutRight 0.3s ease-in';
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
@@ -304,4 +331,28 @@
             showToast('{{ session('error') }}', 'error');
         @endif
     </script>
+
+    <style>
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
 @endpush

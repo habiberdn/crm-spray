@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
         } else {
             $avatarPath = 'images/avatar-default.svg';
         }
-
+      
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
